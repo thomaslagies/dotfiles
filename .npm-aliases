@@ -1,0 +1,7 @@
+#NPM
+alias ni='npm install'
+alias nib='npm install && npm run bot'
+alias nid='npm install --save-dev'
+alias nig='npm install -g'
+alias nit='npm install && npm test'
+alias nr='npm run'
