@@ -13,12 +13,38 @@ alias dl=dl-fn
 alias dnames=dnames-fn
 alias dps="docker ps"
 alias dpsa="docker ps -a"
-alias drma="docker rm $(docker ps -a -q)"
-alias drmc="docker rm $(docker ps --all -q -f status=exited)"
-alias drmi="docker rmi $(docker images -q)"
-alias drmid="docker rmi $( docker images -q -f dangling=true)"
+alias dstop=dstop-fn
+alias drem=dremove-fn
+alias drmi=ddel-fn
 alias drun=drun-fn
 alias dsr=dsr-fn
+
+#stop all containers
+function dstop-fn {
+	for ID in `docker ps -q`
+	do
+	  docker stop $ID
+	done
+	echo "All containers stopped"
+}
+
+#remove all containers
+function dremove-fn {
+	for ID in `docker ps -aq`
+	do
+	  docker rm $ID
+	done
+	echo "All containers removed"
+}
+
+#remove all images
+function ddel-fn {
+	for ID in `docker ps -aq`
+	do
+	  docker rmi $ID
+	done
+	echo "All images deleted"
+}
 
 #names of all running containers
 function dnames-fn {

@@ -4,7 +4,32 @@
 export I3SCRIPTS=/usr/lib/i3blocks
 export PATH=$HOME/.gem/ruby/2.7.0/bin:${PATH}
 export RUBYOPT="-W0"
+export EDITOR="vim"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+
+PROMPT_COMMAND=__prompt_command # Func to gen PS1 after CMDs
+
+__prompt_command() {
+    local EXIT="$?"             # This needs to be first
+    PS1=""
+
+    local RemoveColor='\[\e[0m\]'
+
+    local Red='\[\e[0;31m\]'
+    local BoldGreen='\[\e[1;32m\]'
+    local Yellow='\[\e[0;33m\]'
+    local BoldBlue='\[\e[0;34m\]'
+    local Purple='\[\e[0;35m\]'
+    local Cyan='\[\e[0;36m\]'
+
+    PS1+=" ${BoldBlue}\w"
+    PS1+="${BoldGreen}$(git_branch)"
+    PS1+="\n${Yellow} > ${RemoveColor}"
+}
+
+git_branch() {
+  git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
