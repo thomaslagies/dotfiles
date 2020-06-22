@@ -17,13 +17,14 @@ __prompt_command() {
     PS1=""
 
     local RemoveColor='\[\e[0m\]'
-
+    # Normal
     local Red='\[\e[0;31m\]'
-    local BoldGreen='\[\e[1;32m\]'
     local Yellow='\[\e[0;33m\]'
-    local BoldBlue='\[\e[0;34m\]'
     local Purple='\[\e[0;35m\]'
     local Cyan='\[\e[0;36m\]'
+    # Bold
+    local BoldGreen='\[\e[1;32m\]'
+    local BoldBlue='\[\e[0;34m\]'
 
     PS1+=" ${BoldBlue}\w"
     PS1+="${BoldGreen}$(git_branch)"
