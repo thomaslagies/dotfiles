@@ -22,11 +22,12 @@ __prompt_command() {
     local Yellow='\[\e[0;33m\]'
     local Purple='\[\e[0;35m\]'
     local Cyan='\[\e[0;36m\]'
+    local Blue='\[\e[0;34m\]'
     # Bold
     local BoldGreen='\[\e[1;32m\]'
-    local BoldBlue='\[\e[0;34m\]'
+    local BoldBlue='\[\e[1;34m\]'
 
-    PS1+=" ${BoldBlue}\w"
+    PS1+=" ${Blue}\w"
     PS1+="${BoldGreen}$(git_branch)"
     PS1+="\n${Yellow} > ${RemoveColor}"
 }
