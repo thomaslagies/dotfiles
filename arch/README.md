@@ -1,5 +1,3 @@
-# know how
-
 ## VMware disk
 
 ### increase disk size
