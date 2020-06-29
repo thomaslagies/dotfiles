@@ -1,5 +1,6 @@
 # inspired by https://gist.github.com/jgrodziski/9ed4a17709baad10dbcd4530b60dfcbb
 
+alias dco="docker-compose"
 alias dcd="docker-compose down"
 alias dcid='pushd ~/git/docker/infrastructure; dcd; popd'
 alias dciu='pushd ~/git/docker/infrastructure; dcu; popd'
