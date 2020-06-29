@@ -10,3 +10,5 @@
 5. Install growpart (`yay growpart`)
 6. Run `sudo growpart /dev/sda 1`
 7. Run `sudo resize2fs /dev/sda1`
+
+See: https://communities.vmware.com/thread/596125
