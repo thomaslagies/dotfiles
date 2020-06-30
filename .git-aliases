@@ -1,7 +1,5 @@
 
 # INCLUDE ZSH IF AVAILABLE
-if [ -f $HOME/git/ohmyzsh/plugins/git/git.plugin.zsh ]; then
-    . $HOME/git/ohmyzsh/plugins/git/git.plugin.zsh
+if [ -f ~/git/ohmyzsh/plugins/git/git.plugin.zsh ]; then
+    . ~/git/ohmyzsh/plugins/git/git.plugin.zsh
 fi
-
-alias yolo='git add . && git commit -m "`curl -s http://whatthecommit.com/ | grep "<p>" | sed 's/<p>//'`" && git push'
