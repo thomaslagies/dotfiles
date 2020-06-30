@@ -38,7 +38,7 @@ git_branch() {
 }
 
 git_branch_dirty() {
-  [[ -n "$(git status -s 2> /dev/null)" ]] && echo "▵"
+  [[ -n "$(git status -s 2> /dev/null)" ]] && echo " ●"
 }
 
 aliases=(.docker-aliases .shell-aliases .npm-aliases .git-aliases)
