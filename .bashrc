@@ -28,13 +28,18 @@ __prompt_command() {
     local BoldGreen='\[\e[1;32m\]'
     local BoldBlue='\[\e[1;34m\]'
 
+
     PS1+=" ${Blue}\w"
-    PS1+="${Orange}$(git_branch)"
+    PS1+="${Orange}$(git_branch) $(git_branch_dirty)"
     PS1+="${Yellow} ↳ ${RemoveColor}"
 }
 
 git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/(\1)/'
+}
+
+git_branch_dirty() {
+  git status --porcelain
 }
 
 aliases=(.docker-aliases .shell-aliases .npm-aliases .git-aliases)
