@@ -30,7 +30,7 @@ __prompt_command() {
 
 
     PS1+=" ${Blue}\w"
-    PS1+="${Orange}$(git_branch) $(git_branch_dirty)"
+    PS1+="${Orange}$(git_branch)$(git_branch_dirty)"
     PS1+="${Yellow} ↳ ${RemoveColor}"
 }
 
@@ -39,7 +39,7 @@ git_branch() {
 }
 
 git_branch_dirty() {
-  git status --porcelain
+  [[ -n "$(git status -s 2> /dev/null)" ]] && echo "*"
 }
 
 aliases=(.docker-aliases .shell-aliases .npm-aliases .git-aliases)
