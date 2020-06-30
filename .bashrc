@@ -38,7 +38,11 @@ git_branch() {
 }
 
 git_branch_dirty() {
-  [[ -n "$(git status -s 2> /dev/null)" ]] && echo " ●"
+  eval [[ -n "$(git status -s 2> /dev/null)" ]] && echo " ●"
+}
+
+git_branch_pull() {
+  eval [[ -n "$(git status -uno | grep -o '[0-9]*' 2> /dev/null)" ]] && echo " ▽"
 }
 
 aliases=(.docker-aliases .shell-aliases .npm-aliases .git-aliases)
