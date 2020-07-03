@@ -29,7 +29,7 @@ __prompt_command() {
     local BoldBlue='\[\e[1;34m\]'
 
     PS1+=" ${Blue}\w"
-    PS1+="${Orange} $(git_branch)$(git_branch_dirty)"
+    PS1+="${Orange} $(git_branch)$(git_branch_dirty)$(git_branch_pull)"
     PS1+="\n${Yellow} ↳ ${RemoveColor}"
 }
 
@@ -38,11 +38,11 @@ git_branch() {
 }
 
 git_branch_dirty() {
-  eval [[ -n "$(git status -s 2> /dev/null)" ]] && echo " ●"
+  [[ -n "$(git status -s 2> /dev/null)" ]] && echo " ↑"
 }
 
 git_branch_pull() {
-  eval [[ -n "$(git status -uno | grep -o '[0-9]*' 2> /dev/null)" ]] && echo " ▽"
+   [[ -n "$(git status -uno 2> /dev/null | grep -o 'behind')" ]] && echo " ↓"
 }
 
 aliases=(.docker-aliases .shell-aliases .npm-aliases .git-aliases)
