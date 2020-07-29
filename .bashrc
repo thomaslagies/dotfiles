@@ -5,6 +5,7 @@ export I3SCRIPTS=/usr/lib/i3blocks
 export PATH=$HOME/.gem/ruby/2.7.0/bin:${PATH}
 export RUBYOPT="-W0"
 export EDITOR="vim"
+export TLS_UNPROTECTED="world"
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
