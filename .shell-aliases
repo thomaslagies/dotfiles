@@ -8,8 +8,11 @@ alias c='clear'
 alias cg="cd $HOME/git; ls"
 alias ll='ls -la'
 alias ls='ls --color=auto'
-alias ping5='ping -c 5'
 alias grep='grep --color=auto'
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
-alias r='exec bash'
+alias r='exec zsh'
+
+function pkey () {
+  cat ~/.ssh/github_id_rsa.pub | xclip -selection clipboard
+}

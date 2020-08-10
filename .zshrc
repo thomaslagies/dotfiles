@@ -9,8 +9,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 ZSH_THEME="avit"
+TERM=xterm-256color
 
-plugins=(git z docker docker-compose)
+plugins=(git z fzf)
 
-source $ZSH/oh-my-zsh.sh
-
+[ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+[ -f ~/git/dotfiles/.docker-aliases ] && source ~/git/dotfiles/.docker-aliases
+[ -f ~/git/dotfiles/.npm-aliases ] && source ~/git/dotfiles/.npm-aliases
+[ -f ~/git/dotfiles/.shell-aliases ] && source ~/git/dotfiles/.shell-aliases

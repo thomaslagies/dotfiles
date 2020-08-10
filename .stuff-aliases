@@ -1,0 +1,1 @@
+alias pp='curl --max-time 5 -s parrot.live'
