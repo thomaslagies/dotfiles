@@ -15,7 +15,7 @@ plugins=(git z fzf)
 
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/git/dotfiles/.docker-aliases ] && source ~/git/dotfiles/.docker-aliases
-[ -f ~/git/dotfiles/.npm-aliases ] && source ~/git/dotfiles/.npm-aliases
-[ -f ~/git/dotfiles/.shell-aliases ] && source ~/git/dotfiles/.shell-aliases
-[ -f ~/git/dotfiles/.stuff-aliases ] && source ~/git/dotfiles/.stuff-aliases
+[ -f ~/git/dotfiles/aliases/.docker-aliases ] && source ~/git/dotfiles/aliases/.docker-aliases
+[ -f ~/git/dotfiles/aliases/.npm-aliases ] && source ~/git/dotfiles/aliases/.npm-aliases
+[ -f ~/git/dotfiles/aliases/.shell-aliases ] && source ~/git/dotfiles/aliases/.shell-aliases
+[ -f ~/git/dotfiles/aliases/.stuff-aliases ] && source ~/git/dotfiles/aliases/.stuff-aliases
