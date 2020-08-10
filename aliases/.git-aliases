@@ -1,11 +1,7 @@
-
-# INCLUDE ZSH IF AVAILABLE
-if [ -f ~/git/ohmyzsh/plugins/git/git.plugin.zsh ]; then
-    . ~/git/ohmyzsh/plugins/git/git.plugin.zsh
-fi
-
-alias gcp=gcp
-
 gcp() {
     git clone git@github.com:plossys/$1
+}
+
+gcs() {
+    git clone git@github.com:sealsystems/$1
 }
