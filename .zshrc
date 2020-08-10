@@ -18,3 +18,4 @@ plugins=(git z fzf)
 [ -f ~/git/dotfiles/.docker-aliases ] && source ~/git/dotfiles/.docker-aliases
 [ -f ~/git/dotfiles/.npm-aliases ] && source ~/git/dotfiles/.npm-aliases
 [ -f ~/git/dotfiles/.shell-aliases ] && source ~/git/dotfiles/.shell-aliases
+[ -f ~/git/dotfiles/.stuff-aliases ] && source ~/git/dotfiles/.stuff-aliases
