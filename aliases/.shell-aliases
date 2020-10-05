@@ -1,9 +1,6 @@
 alias ..='cd ..'
-alias ...='cd ../../../'
-alias ....='cd ../../../../'
-alias .....='cd ../../../../'
-alias .4='cd ../../../../'
-alias .5='cd ../../../../..'
+alias ...='cd ../../'
+alias ....='cd ../../../'
 alias c='clear'
 alias cg="cd $HOME/git; ls"
 alias ll='ls -la'
