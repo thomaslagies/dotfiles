@@ -1,3 +1,2 @@
 alias pp='curl --max-time 5 -s parrot.live'
-#alias code='rm -rf /home/$USER/.config/Code/Workspaces; code -arn'
-alias code='code -arn'
+alias code='code -n'
