@@ -1,2 +1,9 @@
 alias pp='curl --max-time 5 -s parrot.live'
 alias code='code -n'
+
+coaut () {
+  for handle in "$@"
+  do
+    echo "Co-authored-by: $handle <$handle@users.noreply.github.com>"
+  done
+}

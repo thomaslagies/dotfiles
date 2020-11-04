@@ -1,92 +1,12 @@
-# inspired by https://gist.github.com/jgrodziski/9ed4a17709baad10dbcd4530b60dfcbb
-
-alias dco="docker-compose"
-alias dcd="docker-compose down"
-alias dcid='pushd ~/git/docker/infrastructure; dcd; popd'
-alias dciu='pushd ~/git/docker/infrastructure; dcu; popd'
-alias dcu="docker-compose up -d"
-alias dex=dex-fn
-alias di=di-fn
-alias dim="docker images"
-alias dip=dip-fn
-alias dka="docker kill $(docker ps -q)"
-alias dl=dl-fn
-alias dnames=dnames-fn
-alias dps="docker ps"
-alias dpsa="docker ps -a"
-alias dstop=dstop-fn
-alias drem=dremove-fn
-alias drmi=ddel-fn
-alias drun=drun-fn
-alias dsr=dsr-fn
-
-#stop all containers
-function dstop-fn {
-	for ID in `docker ps -q`
-	do
-	  docker stop $ID
-	done
-	echo "All containers stopped"
+docwipe () {
+	echo "Stopping all containers"
+	docker stop `docker ps -qa` $1 2>&1
+	echo "Removing all containers"
+	docker rm `docker ps -qa` $1 2>&1
+	echo "Removing all volumes"
+	docker volume rm $(docker volume ls -qf) $1 2>&1
+	echo "Removing all networks"
+	docker network rm `docker network ls -q` $1 2>&1
 }
 
-#remove all containers
-function dremove-fn {
-	for ID in `docker ps -aq`
-	do
-	  docker rm $ID
-	done
-	echo "All containers removed"
-}
-
-#remove all images
-function ddel-fn {
-	for ID in `docker ps -aq`
-	do
-	  docker rmi $ID
-	done
-	echo "All images deleted"
-}
-
-#names of all running containers
-function dnames-fn {
-	for ID in `docker ps | awk '{print $1}' | grep -v 'CONTAINER'`
-	do
-    	docker inspect $ID | grep Name | head -1 | awk '{print $2}' | sed 's/,//g' | sed 's%/%%g' | sed 's/"//g'
-	done
-}
-
-#IP addresses of all running containers 
-function dip-fn {
-	echo "IP addresses of all named running containers"
-
-	for DOC in `dnames-fn`
-	do
-  		IP=`docker inspect $DOC | grep -m3 IPAddress | cut -d '"' -f 4 | tr -d "\n"`
-  		echo $DOC : $IP
-	done
-}
-
-# execute a bash shell inside the RUNNING <container>
-function dex-fn {
-	docker exec -it $1 /bin/bash
-}
-
-#docker inspect <container>
-function di-fn {
-	docker inspect $1
-}
-
-#docker logs -f <container>
-function dl-fn {
-	docker logs -f $1
-}
-
-#execute a bash shell in NEW container from <image>
-function drun-fn {
-	docker run -it $1 /bin/bash
-}
-
-#stop then remove <container>
-function dsr-fn {
-	docker stop $1;docker rm $1
-}
+alias dco=docker-compose
