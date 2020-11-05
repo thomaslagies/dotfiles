@@ -1,9 +1,22 @@
 alias pp='curl --max-time 5 -s parrot.live'
-alias code='code -n'
+alias c=c-fn
+alias ck=c-kill-fn
 
 coaut () {
   for handle in "$@"
   do
     echo "Co-authored-by: $handle <$handle@users.noreply.github.com>"
   done
+}
+
+c-fn () {
+  for repo in "$@"
+  do
+    code -ar --add ~/git/$repo
+  done
+}
+
+c-kill-fn () {
+  pkill code
+  rm -rf /home/$USER/.config/Code/Workspaces;
 }
