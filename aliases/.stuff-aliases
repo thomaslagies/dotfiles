@@ -1,6 +1,7 @@
 alias pp='curl --max-time 5 -s parrot.live'
 alias c=c-fn
 alias ck=c-kill-fn
+alias stats=bpytop
 
 coaut () {
   for handle in "$@"

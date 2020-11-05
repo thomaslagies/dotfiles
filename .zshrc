@@ -1,4 +1,4 @@
-export ZSH="~/.oh-my-zsh"
+export ZSH="/home/$USER/.oh-my-zsh"
 export I3SCRIPTS=/usr/lib/i3blocks
 export PATH=$HOME/.gem/ruby/2.7.0/bin:${PATH}
 export RUBYOPT="-W0"
