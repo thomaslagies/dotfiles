@@ -1,12 +1,24 @@
-docwipe () {
-	echo "Stopping all containers"
-	docker stop `docker ps -qa` $1 2>&1
-	echo "Removing all containers"
-	docker rm `docker ps -qa` $1 2>&1
-	echo "Removing all volumes"
-	docker volume rm $(docker volume ls -qf) $1 2>&1
-	echo "Removing all networks"
-	docker network rm `docker network ls -q` $1 2>&1
+alias dco=docker-compose
+alias dprune=system-prune-fn
+alias dwipe=docker-wipe-fn
+
+docker-wipe-fn () {
+	container-remove-fn
+	image-remove-fn
+	system-prune-fn
 }
 
-alias dco=docker-compose
+system-prune-fn () {
+	echo "Removing all stopped containers, networks, dangling images and build cache"
+	docker system prune --all --force --volumes
+}
+
+container-remove-fn () {
+	echo "Stopping and removing all containers"
+	docker container stop $(docker container ls -aq)
+	docker container rm $(docker container ls -aq)
+}
+
+image-remove-fn () {
+	docker image rm $(docker image ls -aq)
+}
