@@ -2,6 +2,10 @@ alias pp='curl --max-time 5 -s parrot.live'
 alias c=c-fn
 alias ck=c-kill-fn
 alias stats=bpytop
+alias pwipe=plossys-wipe-fn
+alias ncp=plossys-nc-printer-fn
+alias pmux=plossys-tmux-printer-fn
+alias tend='tmux kill-server'
 
 coaut () {
   for handle in "$@"
@@ -20,4 +24,30 @@ c-fn () {
 c-kill-fn () {
   pkill code
   rm -rf /home/$USER/.config/Code/Workspaces;
+}
+
+plossys-wipe-fn () {
+  /home/$USER/git/docker/plossys/stop.sh
+  sudo rm -rf ./data/mongo*
+  /home/$USER/git/docker/plossys/dbcluster.sh
+  /home/$USER/git/docker/plossys/start.sh
+}
+
+plossys-nc-printer-fn () {
+  pushd /home/$USER/git/docker/plossys
+  dco exec printers nc -l -k -d $1 $2 $3
+  popd
+}
+
+plossys-tmux-printer-fn () {
+  tmux new-session -s PRINTERS -d
+  tmux split-window -v -d
+  tmux select-pane -t "PRINTERS:0.1"
+  tmux split-window -v -d
+  tmux select-pane -t "PRINTERS:0.2"
+
+  tmux send-keys -t "PRINTERS:0.0" "ncp 9400" Enter
+  tmux send-keys -t "PRINTERS:0.1" "ncp 9500" Enter
+  tmux send-keys -t "PRINTERS:0.2" "ncp 9600" Enter
+  tmux attach-session -t PRINTERS
 }
