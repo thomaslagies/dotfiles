@@ -15,6 +15,13 @@ set $mod Mod4
 # is used in the bar {} block below.
 font pango:Ubuntu 10
 
+# This font is widely installed, provides lots of unicode glyphs, right-to-left
+# text rendering and scalability on retina/hidpi displays (thanks to pango).
+#font pango:DejaVu Sans Mono 8
+
+# The combination of xss-lock, nm-applet and pactl is a popular choice, so
+# they are included here as an example. Modify as you see fit.
+
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
@@ -86,10 +93,10 @@ bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
-bindsym $mod+Shift+space floating toggle
+# bindsym $mod+Shift+space floating toggle
 
 # change focus between tiling / floating windows
-bindsym $mod+space focus mode_toggle
+# bindsym $mod+space focus mode_toggle
 
 # focus the parent container
 bindsym $mod+a focus parent
@@ -214,8 +221,8 @@ exec_always sudo systemctl restart vmtoolsd.service
 # Gaps configuration
 
 # Set inner/outer gaps
-gaps inner 2
-gaps outer 1
+gaps inner 6
+gaps outer 0
 
 # Additionally, you can issue commands with the following syntax. This is useful to bind keys to changing the gap size.
 # gaps inner|outer current|all set|plus|minus <px>
@@ -230,8 +237,8 @@ smart_gaps on
 smart_borders on
 
 # background
-exec_always feh --no-fehbg --bg-fill '/home/tol/git/stuff/witcher.png' 
+exec_always sleep 2; feh --no-fehbg --bg-fill '/home/$USER/git/dotfiles/arch/backgrounds/synthwave4k.jpg' 
 
 # ROFI
-bindsym $mod+Shift+a exec rofi -show window
-bindsym $mod+Shift+m exec rofi -show run
+bindsym $mod+space exec rofi -show window
+bindsym $mod+Shift+space exec rofi -show run
