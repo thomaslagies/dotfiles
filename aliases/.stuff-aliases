@@ -6,6 +6,9 @@ alias pwipe=plossys-wipe-fn
 alias ncp=plossys-nc-printer-fn
 alias pmux=plossys-tmux-printer-fn
 alias tend='tmux kill-server'
+alias pstart=docker-plossys-start-fn
+alias pstop=docker-plossys-stop-fn
+alias padmin=start-plossys-admin-fn
 
 coaut () {
   for handle in "$@"
@@ -50,4 +53,16 @@ plossys-tmux-printer-fn () {
   tmux send-keys -t "PRINTERS:0.1" "ncp 9500" Enter
   tmux send-keys -t "PRINTERS:0.2" "ncp 9600" Enter
   tmux attach-session -t PRINTERS
+}
+
+docker-plossys-start-fn () {
+  /home/$USER/git/docker/plossys/start.sh
+}
+
+docker-plossys-stop-fn () {
+  /home/$USER/git/docker/plossys/stop.sh
+}
+
+start-plossys-admin-fn () {
+  exec google-chrome-stable 'https://localhost:9000' &
 }
