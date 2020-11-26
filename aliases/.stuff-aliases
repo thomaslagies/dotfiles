@@ -9,6 +9,7 @@ alias tend='tmux kill-server'
 alias pstart=docker-plossys-start-fn
 alias pstop=docker-plossys-stop-fn
 alias padmin=start-plossys-admin-fn
+alias dre=docker-restart-service-fn
 
 coaut () {
   for handle in "$@"
@@ -31,7 +32,7 @@ c-kill-fn () {
 
 plossys-wipe-fn () {
   /home/$USER/git/docker/plossys/stop.sh
-  sudo rm -rf ./data/mongo*
+  sudo rm -rf /home/$USER/git/docker/plossys/data/mongo*
   /home/$USER/git/docker/plossys/dbcluster.sh
   /home/$USER/git/docker/plossys/start.sh
 }
@@ -65,4 +66,13 @@ docker-plossys-stop-fn () {
 
 start-plossys-admin-fn () {
   exec google-chrome-stable 'https://localhost:9000' &
+}
+
+docker-restart-service-fn () {
+  pushd /home/$USER/git/docker/plossys/
+  echo "Restarting $1"
+  ./restart.sh $1
+  echo "Attaching to $1"
+  ./log.sh $1
+  popd
 }

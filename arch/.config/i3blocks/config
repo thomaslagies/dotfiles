@@ -1,0 +1,20 @@
+[docker]
+markup=pango
+command=$I3SCRIPTS/docker/docker
+label=
+color=#333
+interval=5
+
+[weather]
+markup=pango
+command=curl -s 'wttr.in/96052?format="%t+/+%f+%c+H:+%h+%w+%p+%o+%m+%s"' | xargs -Itemp echo '<span color="#fff" font_desc="Font Awesome 10" font-weight="bold">temp</span>'
+interval=3600
+color=#333
+align=center
+
+[time]
+markup=pango
+command=LC_ALL=de_DE.utf8 date +'<span color="#fff" font-weight="bold">%H:%M | %A %d. %B </span>'
+interval=10
+color=#333
+label= 
