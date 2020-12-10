@@ -9,16 +9,21 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 ZSH_THEME="avit"
+
+autoload -U colors && colors	# Load colors
+#PROMPT="%B%{$fg[yellow]%}t%{$fg[yellow]%}h%{$fg[ywllo]%}o%{$fg[yellow]%}m%{$fg[yellow]%}a%{$fg[yellow]%}s%{$fg[magenta]%} %~ %{$fg[yellow]%}$(git_super_status)
+#> %{$reset_color%}"
+#RPROMPT="%{$fg[red]%}%(?..%? )%{$reset_color%}"
 TERM=xterm-256color
+
+# keyboard delay and rate
+xset r rate 350 40
 
 plugins=(git z fzf)
 
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-[ -f ~/git/dotfiles/aliases/.docker-aliases ] && source ~/git/dotfiles/aliases/.docker-aliases
-[ -f ~/git/dotfiles/aliases/.npm-aliases ] && source ~/git/dotfiles/aliases/.npm-aliases
-[ -f ~/git/dotfiles/aliases/.shell-aliases ] && source ~/git/dotfiles/aliases/.shell-aliases
-[ -f ~/git/dotfiles/aliases/.stuff-aliases ] && source ~/git/dotfiles/aliases/.stuff-aliases
+[ -f ~/git/dotfiles/aliases/aliasrc ] && source ~/git/dotfiles/aliases/aliasrc
 
 PATH="/home/tol/perl5/bin${PATH:+:${PATH}}"; export PATH;
 PERL5LIB="/home/tol/perl5/lib/perl5${PERL5LIB:+:${PERL5LIB}}"; export PERL5LIB;

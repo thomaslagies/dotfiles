@@ -1,7 +1,0 @@
-gcp() {
-    git clone git@github.com:plossys/$1
-}
-
-gcs() {
-    git clone git@github.com:sealsystems/$1
-}
