@@ -3,6 +3,7 @@ alias ...='cd ../../'
 alias ..='cd ..'
 alias cg="cd $HOME/git; ls"
 alias cl='clear'
+alias co='co-authored-by-fn'
 alias dco=docker-compose
 alias dprune=docker-system-prune-fn
 alias dre=docker-restart-service-fn
@@ -22,6 +23,13 @@ alias r='exec zsh'
 alias stats=bpytop
 
 ### general functions
+
+function co-authored-by-fn () {
+  for handle in "$@"
+  do
+    echo "Co-authored-by: $handle <$handle@users.noreply.github.com>"
+  done
+} 
 
 function pkey () {
   cat ~/.ssh/github_id_rsa.pub | xclip -selection clipboard
