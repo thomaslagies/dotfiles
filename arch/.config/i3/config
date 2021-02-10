@@ -203,7 +203,7 @@ client.placeholder          #2f343f #2f343f #d8dee8 #2f343f #2f343f
 client.background           #2f343f
 
 # Start browser
-bindsym $mod+c exec google-chrome-stable
+bindsym $mod+c exec chromium
 
 # Start slack
 #exec_always workspace 10; slack
