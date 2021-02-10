@@ -10,10 +10,7 @@ export NVM_DIR="$HOME/.nvm"
 
 ZSH_THEME="avit"
 
-autoload -U colors && colors	# Load colors
-#PROMPT="%B%{$fg[yellow]%}t%{$fg[yellow]%}h%{$fg[ywllo]%}o%{$fg[yellow]%}m%{$fg[yellow]%}a%{$fg[yellow]%}s%{$fg[magenta]%} %~ %{$fg[yellow]%}$(git_super_status)
-#> %{$reset_color%}"
-#RPROMPT="%{$fg[red]%}%(?..%? )%{$reset_color%}"
+autoload -U colors && colors
 TERM=xterm-256color
 
 # keyboard delay and rate
