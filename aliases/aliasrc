@@ -8,6 +8,7 @@ alias co='co-authored-by-fn'
 alias dco=docker-compose
 alias dprune=docker-system-prune-fn
 alias dre=docker-restart-service-fn
+alias dstop=docker-stop-fn
 alias dwipe=docker-wipe-fn
 alias egrep='egrep --color=auto'
 alias fgrep='fgrep --color=auto'
@@ -50,6 +51,11 @@ docker-wipe-fn () {
 	docker-container-remove-fn
 	docker-image-remove-fn
 	docker-system-prune-fn
+}
+
+docker-stop-fn () {
+  docker-container-remove-fn
+  docker-system-prune-fn
 }
 
 docker-system-prune-fn () {
