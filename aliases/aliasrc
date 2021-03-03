@@ -2,37 +2,19 @@ alias .....='cd ../../../../'
 alias ....='cd ../../../'
 alias ...='cd ../../'
 alias ..='cd ..'
-alias cg="cd $HOME/git; ls"
-alias cl='clear'
 alias co='co-authored-by-fn'
 alias dco=docker-compose
 alias dprune=docker-system-prune-fn
-alias dre=docker-restart-service-fn
 alias dstop=docker-stop-fn
 alias dwipe=docker-wipe-fn
-alias egrep='egrep --color=auto'
-alias fgrep='fgrep --color=auto'
 alias grep='grep --color=auto'
 alias ll='ls -hNla --color=auto --group-directories-first'
 alias ls='ls --color=auto'
 alias nr='npm run'
-alias padmin=docker-start-plossys-admin-fn
 alias pp='curl --max-time 5 -s parrot.live'
-alias pstart=docker-plossys-start-fn
-alias pstop=docker-plossys-stop-fn
 alias pwipe=plossys-wipe-fn
 alias r='exec zsh'
 alias stats=bpytop
-
-
-### worktime
-
-alias work='node ~/git/worktime/worktime.js start'
-alias pause='node ~/git/worktime/worktime.js pause-start'
-alias ret='node ~/git/worktime/worktime.js pause-end'
-alias fa='node ~/git/worktime/worktime.js end'
-
-### general functions
 
 function co-authored-by-fn () {
   for handle in "$@"
@@ -44,8 +26,6 @@ function co-authored-by-fn () {
 function pkey () {
   cat ~/.ssh/github_id_rsa.pub | xclip -selection clipboard
 }
-
-### docker functions
 
 docker-wipe-fn () {
 	docker-container-remove-fn
@@ -71,25 +51,4 @@ docker-container-remove-fn () {
 
 docker-image-remove-fn () {
 	docker image rm $(docker image ls -aq)
-}
-
-docker-restart-service-fn () {
-  pushd /home/$USER/git/docker/plossys/
-  echo "Restarting $1"
-  ./restart.sh $1
-  echo "Attaching to $1"
-  ./log.sh $1
-  popd
-}
-
-docker-plossys-start-fn () {
-  /home/$USER/git/docker/plossys/start.sh
-}
-
-docker-plossys-stop-fn () {
-  /home/$USER/git/docker/plossys/stop.sh
-}
-
-docker-start-plossys-admin-fn () {
-  exec brave 'https://localhost:9000' &
 }
