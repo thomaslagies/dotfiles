@@ -15,6 +15,8 @@ alias pp='curl --max-time 5 -s parrot.live'
 alias pwipe=plossys-wipe-fn
 alias r='exec zsh'
 alias stats=bpytop
+alias mock="node -p \"process.argv.slice(1).map(w => w.split('').map((c)=>Math.random(1)<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')\""
+
 
 function co-authored-by-fn () {
   for handle in "$@"
