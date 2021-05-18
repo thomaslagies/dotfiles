@@ -26,7 +26,7 @@ function co-authored-by-fn () {
 } 
 
 function pkey () {
-  cat ~/.ssh/github_id_rsa.pub | xclip -selection clipboard
+  cat ~/.ssh/id_rsa.pub | xclip -selection clipboard
 }
 
 docker-wipe-fn () {
@@ -52,5 +52,6 @@ docker-container-remove-fn () {
 }
 
 docker-image-remove-fn () {
+	echo "Removing all images"
 	docker image rm $(docker image ls -aq)
 }
