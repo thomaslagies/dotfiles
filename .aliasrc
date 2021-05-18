@@ -16,7 +16,7 @@ alias pwipe=plossys-wipe-fn
 alias r='exec zsh'
 alias stats=bpytop
 alias mock="node -p \"process.argv.slice(1).map(w => w.split('').map((c)=>Math.random()<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')\""
-
+alias wp='nitrogen ~/git/dotfiles/wallpapers --random --set-zoom-fill'
 
 function co-authored-by-fn () {
   for handle in "$@"
@@ -31,7 +31,7 @@ function pkey () {
 
 docker-wipe-fn () {
 	docker-container-remove-fn
-	docker-image-remove-fn
+#	docker-image-remove-fn
 	docker-system-prune-fn
 }
 
