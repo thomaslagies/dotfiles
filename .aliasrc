@@ -4,9 +4,8 @@ alias ...='cd ../../'
 alias ..='cd ..'
 alias co='co-authored-by-fn'
 alias dco=docker-compose
-alias dprune=docker-system-prune-fn
-alias dstop=docker-stop-fn
 alias dwipe=docker-wipe-fn
+alias iwipe=docker-image-wipe-fn
 alias grep='grep --color=auto'
 alias ll='ls -hNla --color=auto --group-directories-first'
 alias ls='ls --color=auto'
@@ -30,28 +29,15 @@ function pkey () {
 }
 
 docker-wipe-fn () {
-	docker-container-remove-fn
-#	docker-image-remove-fn
-	docker-system-prune-fn
-}
-
-docker-stop-fn () {
-  docker-container-remove-fn
-  docker-system-prune-fn
-}
-
-docker-system-prune-fn () {
-	echo "Removing all stopped containers, networks, dangling images and build cache"
-	docker system prune --all --force --volumes
-}
-
-docker-container-remove-fn () {
 	echo "Stopping and removing all containers"
 	docker container stop $(docker container ls -aq)
 	docker container rm $(docker container ls -aq)
+	echo "Removing all stopped containers, networks, dangling images and build cache"
+	docker system prune --force --volumes
 }
 
-docker-image-remove-fn () {
+docker-image-wipe-fn () {
 	echo "Removing all images"
-	docker image rm $(docker image ls -aq)
+	docker system prune --force
+	docker rmi -f $(docker image ls -aq)
 }
