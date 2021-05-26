@@ -1,0 +1,41 @@
+#!/bin/bash
+
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -p|--printer) printer="$2"; shift ;;
+        -d|--document) document="$2"; shift ;;
+        -c|--count) count="$2"; shift ;;
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
+
+ranp=("printer1" "printer2" "printer3")
+rand=("testfile.pdf" "testfile.pcl" "testfile.jpg" "testfile.ps" "testfile.txt")
+
+testfile="print-job.test"
+count=${count:=1}
+
+echo "Start sending $count file(s) to ipp-checkin"
+while [ $count -ge 1 ]; do
+  if [ -z "$printer" ]; then
+    printer=${ranp[RANDOM%${#ranp[@]}]}
+    a=1
+  fi
+  if [ -z "$document" ]; then
+    document=${rand[RANDOM%${#rand[@]}]}
+    b=1
+  fi
+  echo ">>> ipptool -tv -f $document ipp://localhost:6631/printers/$printer $testfile"
+  ipptool -tv -f $document ipp://localhost:6631/printers/$printer $testfile
+  count=$(( $count -1 ))
+  # reset helpers
+  if ! [ -z "$a" ]; then
+    printer=""
+  fi
+  if ! [ -z "$b" ]; then
+    document=""
+  fi
+done
+
+echo "Done sending..."
