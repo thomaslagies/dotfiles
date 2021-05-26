@@ -1,0 +1,17 @@
+#!/bin/bash
+
+pushd $HOME/git/plossys-bundle
+
+echo ""
+echo ">>> starting mongo cluster..."
+echo ""
+
+docker-compose up -d dbinit db db2 db3
+
+popd
+
+echo ""
+echo ">>> done"
+echo ""
+
+exit 0
