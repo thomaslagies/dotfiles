@@ -14,6 +14,7 @@ alias pp='curl --max-time 5 -s parrot.live'
 alias pwipe=plossys-wipe-fn
 alias r='exec zsh'
 alias stats=bpytop
+alias tf=terraform
 alias mock="node -p \"process.argv.slice(1).map(w => w.split('').map((c)=>Math.random()<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')\""
 alias wp='nitrogen ~/git/dotfiles/wallpapers --random --set-zoom-fill'
 
@@ -40,4 +41,9 @@ docker-image-wipe-fn () {
 	echo "Removing all images"
 	docker system prune --force
 	docker rmi -f $(docker image ls -aq)
+}
+# Set Kubernetes client to new context
+function kcctx {
+  [ -n "$1" ] && kubectl config use-context "$1"
+  kubectl config get-contexts --no-headers | tr -s " " | cut -d " " -f1,2,5 | sed 's/ / | /g'
 }
