@@ -2,16 +2,13 @@ alias .....='cd ../../../../'
 alias ....='cd ../../../'
 alias ...='cd ../../'
 alias ..='cd ..'
+alias c='clear'
 alias co='co-authored-by-fn'
 alias dco=docker-compose
-alias dwipe=docker-wipe-fn
-alias iwipe=docker-image-wipe-fn
 alias grep='grep --color=auto'
 alias ll='ls -hNla --color=auto --group-directories-first'
 alias ls='ls --color=auto'
-alias nr='npm run'
 alias pp='curl --max-time 5 -s parrot.live'
-alias pwipe=plossys-wipe-fn
 alias r='exec zsh'
 alias stats=bpytop
 alias tf=terraform
@@ -29,21 +26,37 @@ function pkey () {
   cat ~/.ssh/id_rsa.pub | xclip -selection clipboard
 }
 
-docker-wipe-fn () {
-	echo "Stopping and removing all containers"
-	docker container stop $(docker container ls -aq)
-	docker container rm $(docker container ls -aq)
-	echo "Removing all stopped containers, networks, dangling images and build cache"
-	docker system prune --force --volumes
+function dwipe() {
+  if [ $(docker container ls -aq) ]
+  then
+    echo "Stopping and removing all containers"
+    docker container stop $(docker container ls -aq)
+    echo "Removing all stopped containers, networks, dangling images and build cache"
+    docker system prune --force --volumes
+  fi
 }
 
-docker-image-wipe-fn () {
-	echo "Removing all images"
-	docker system prune --force
-	docker rmi -f $(docker image ls -aq)
+function iwipe {
+  echo "Removing all images"
+	docker image prune --force
 }
+
 # Set Kubernetes client to new context
 function kcctx {
-  [ -n "$1" ] && kubectl config use-context "$1"
-  kubectl config get-contexts --no-headers | tr -s " " | cut -d " " -f1,2,5 | sed 's/ / | /g'
+  if [ -n "$1" ]; then
+    selection="$1"
+    if [[ $selection =~ ^[0-9]+$ ]]; then
+      # Line number entered, get context from that line
+      selection=$(kubectl config get-contexts -o name --no-headers | sed "${selection}q;d")
+    fi
+    kubectl config use-context "${selection}"
+  else
+    kubectl config get-contexts --no-headers | tr -s " " | cut -d " " -f1,2,5 | sed 's/ / | /g' | sed -e 's/^ \| /  | /g' | nl -n rn -w 3 -s ' '
+  fi
+}
+
+function testjob {
+  bytes=`expr 1024 \* 1024 \* ${1:-1}`
+  printer=${2:-printer1}
+  rlpr -Hlocalhost -P$printer --verbose <<< `cat /dev/urandom | base64 | head -c $bytes`
 }
