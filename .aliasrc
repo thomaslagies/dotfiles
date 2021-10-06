@@ -2,6 +2,7 @@ alias .....='cd ../../../../'
 alias ....='cd ../../../'
 alias ...='cd ../../'
 alias ..='cd ..'
+alias .='code-fn'
 alias c='clear'
 alias co='co-authored-by-fn'
 alias dco=docker-compose
@@ -15,6 +16,11 @@ alias tf=terraform
 alias mock="node -p \"process.argv.slice(1).map(w => w.split('').map((c)=>Math.random()<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')\""
 alias wp='nitrogen ~/git/dotfiles/wallpapers --random --set-zoom-fill'
 
+function code-fn {
+  rm -rf ~/.config/Code/Workspaces
+  code .
+}
+
 function co-authored-by-fn () {
   for handle in "$@"
   do
@@ -27,13 +33,10 @@ function pkey () {
 }
 
 function dwipe() {
-  if [ $(docker container ls -aq) ]
-  then
-    echo "Stopping and removing all containers"
-    docker container stop $(docker container ls -aq)
-    echo "Removing all stopped containers, networks, dangling images and build cache"
-    docker system prune --force --volumes
-  fi
+  echo "Stopping and removing all containers"
+  docker container stop $(docker container ls -aq)
+  echo "Removing all stopped containers, networks, dangling images and build cache"
+  docker system prune --force --volumes
 }
 
 function iwipe {
