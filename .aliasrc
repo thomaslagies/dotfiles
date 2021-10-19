@@ -4,11 +4,13 @@ alias ...='cd ../../'
 alias ..='cd ..'
 alias .='code-fn'
 alias c='clear'
-alias co='co-authored-by-fn'
 alias dco=docker-compose
+alias doc=docker-compose
 alias grep='grep --color=auto'
+alias kc=kubectl
 alias ll='ls -hNla --color=auto --group-directories-first'
 alias ls='ls --color=auto'
+alias nr='npm run'
 alias pp='curl --max-time 5 -s parrot.live'
 alias r='exec zsh'
 alias stats=bpytop
@@ -21,27 +23,27 @@ function code-fn {
   code .
 }
 
-function co-authored-by-fn () {
+function co {
   for handle in "$@"
   do
     echo "Co-authored-by: $handle <$handle@users.noreply.github.com>"
   done
 } 
 
-function pkey () {
+function pkey  {
   cat ~/.ssh/id_rsa.pub | xclip -selection clipboard
 }
 
-function dwipe() {
+function dwipe {
   echo "Stopping and removing all containers"
-  docker container stop $(docker container ls -aq)
+  docker kill $(docker container ls -aq)
   echo "Removing all stopped containers, networks, dangling images and build cache"
   docker system prune --force --volumes
 }
 
 function iwipe {
   echo "Removing all images"
-	docker image prune --force
+	docker image prune -a -f
 }
 
 # Set Kubernetes client to new context
@@ -62,4 +64,11 @@ function testjob {
   bytes=`expr 1024 \* 1024 \* ${1:-1}`
   printer=${2:-printer1}
   rlpr -Hlocalhost -P$printer --verbose <<< `cat /dev/urandom | base64 | head -c $bytes`
+}
+
+function update-node {
+  GITHUB_TOKEN=${GITHUB_TOKEN:-`grep authToken $HOME/.npmrc | sed -r 's|//npm.pkg.github.com/:_authToken=(.*)$|\1|'`}
+  NODE_VERSION=`curl -sf -H 'Cache-Control: no-cache' "https://$GITHUB_TOKEN@raw.githubusercontent.com/sealsystems/generator-seal-node/master/lib/constants.js" | grep "NODE_VERSION" | cut -f2 -d"'"`
+  [ $NODE_VERSION ]
+  nvm install --default $NODE_VERSION || echo "NODE_VERSION not found, invalid GITHUB_TOKEN?"
 }
