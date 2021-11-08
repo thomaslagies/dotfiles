@@ -15,8 +15,13 @@ alias pp='curl --max-time 5 -s parrot.live'
 alias r='exec zsh'
 alias stats=bpytop
 alias tf=terraform
-alias mock="node -p \"process.argv.slice(1).map(w => w.split('').map((c)=>Math.random()<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')\""
 alias wp='nitrogen ~/git/dotfiles/wallpapers --random --set-zoom-fill'
+
+function mock {
+  MOCK=$(node -p "process.argv.slice(1).map(w => w.split('').map((c)=>Math.random()<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')" $*)
+  echo $MOCK
+  echo $MOCK | xclip -selection clipboard
+}
 
 function code-fn {
   rm -rf ~/.config/Code/Workspaces
