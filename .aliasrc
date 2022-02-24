@@ -16,6 +16,8 @@ alias r='exec zsh'
 alias stats=bpytop
 alias tf=terraform
 alias wp='nitrogen ~/git/dotfiles/wallpapers --random --set-zoom-fill'
+alias gdelta="GIT_PAGER='delta --side-by-side --theme=gruvbox' git diff"
+
 
 function mock {
   MOCK=$(node -p "process.argv.slice(1).map(w => w.split('').map((c)=>Math.random()<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')" $*)
@@ -76,4 +78,33 @@ function update-node {
   NODE_VERSION=`curl -sf -H 'Cache-Control: no-cache' "https://$GITHUB_TOKEN@raw.githubusercontent.com/sealsystems/generator-seal-node/master/lib/constants.js" | grep "NODE_VERSION" | cut -f2 -d"'"`
   [ $NODE_VERSION ]
   nvm install --default $NODE_VERSION || echo "NODE_VERSION not found, invalid GITHUB_TOKEN?"
+}
+
+function perf() {
+  # npm i -g fx
+  pushd $HOME/git/plossys-bundle
+  docker-compose exec db mongo --tls --tlsAllowInvalidCertificates spooler-jobs --eval "db.jobs.find({}, {_id: 1}).toArray()" \
+    | sed '0,/MongoDB server version: 5.0.5/d' \
+    | fx 'x => x.map(xx => xx._id).join("\n")' \
+    | xargs -I{} sh -c "docker-compose logs --no-color \
+    | grep {} \
+    | cut -d'|' -f2 \
+    | fx 'x => [x.isoTimestamp || new Date(x.timestamp).toJSON(), x.application.name.padEnd(16), x.message.padEnd(42), JSON.stringify(x.metadata)].join(\"\t\")' \
+    | sort \
+    | node -e '
+      const {createInterface} = require(\"readline\");
+      const logs = [];
+      createInterface(process.stdin)
+        .on(\"line\", log => logs.push(log))
+        .on(\"close\", () => {
+           logs.forEach((item, index, lines) => { 
+             const diff = new Date(item.split(\"\t\")[0]) - new Date(lines[index === 0 ? 0 : index-1].split(\"\t\")[0]);  
+             const abs = new Date(item.split(\"\t\")[0]) - new Date(lines[0].split(\"\t\")[0]);  
+             const diffline = isNaN(diff) ? item : [\"+\" + abs, \"+\" + diff, item].join(\"\t\");  
+             console.log(diffline);
+           })
+        }); 
+    '
+    "
+  popd
 }
