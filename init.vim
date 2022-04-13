@@ -28,7 +28,7 @@ highlight Normal guibg=none
 
 command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
-let NERDTreeShowHidden=0
+let NERDTreeShowHidden=1
 
 nmap <F1> :Files<CR>
 nmap <F2> :NERDTreeToggle<CR> 
