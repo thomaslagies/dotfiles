@@ -1,4 +1,4 @@
-export EDITOR="vim"
+export EDITOR="nvim"
 export NVM_DIR="$HOME/.nvm"
 export ZSH="/home/thomas/.oh-my-zsh"
 

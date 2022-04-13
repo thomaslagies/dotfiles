@@ -11,16 +11,25 @@ set nu
 set signcolumn=yes
 set scrolloff=8
 set signcolumn=yes
+set shell="/home/thomas/.oh-my-zsh"
+
+command! -nargs=* Wrap set wrap linebreak nolist 
 
 call plug#begin('~/.vim/plugged')
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
-Plug 'junegunn/fzf.vim'
-Plug 'gruvbox-community/gruvbox'
-Plug 'sbdchd/neoformat'
+  Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+  Plug 'junegunn/fzf.vim'
+  Plug 'gruvbox-community/gruvbox'
+  Plug 'neoclide/coc.nvim', {'branch': 'release'}
+  Plug 'preservim/nerdtree'
 call plug#end()
 
 colorscheme gruvbox
 highlight Normal guibg=none
 
-autocmd BufWritePre,InsertLeave *.js Neoformat
+command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
+let NERDTreeShowHidden=0
+
+nmap <F1> :Files<CR>
+nmap <F2> :NERDTreeToggle<CR> 
+nmap <F3> :Rg<CR>
