@@ -21,6 +21,9 @@ call plug#begin('~/.vim/plugged')
   Plug 'gruvbox-community/gruvbox'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'preservim/nerdtree'
+  Plug 'hashivim/vim-terraform'
+  Plug 'vim-airline/vim-airline'
+  Plug 'vim-airline/vim-airline-themes'
 call plug#end()
 
 colorscheme gruvbox
@@ -30,6 +33,15 @@ command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
 let NERDTreeShowHidden=1
 
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+
 nmap <F1> :Files<CR>
 nmap <F2> :NERDTreeToggle<CR> 
 nmap <F3> :Rg<CR>
+
+nnoremap <A-q> :tabclose<CR>
+nnoremap <A-Left> :tabprevious<CR>
+nnoremap <A-Right> :tabnext<CR>
+nnoremap <A-Up> :tabfirst<CR>
+nnoremap <A-Down> :tablast<CR>
