@@ -36,7 +36,7 @@ let NERDTreeShowHidden=1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
-nmap <F1> :Files<CR>
+nmap <F1> :FZF --preview 'bat --color=always --style=numbers --line-range=:500 {}' --bind shift-up:preview-page-up,shift-down:preview-page-down<CR>
 nmap <F2> :NERDTreeToggle<CR> 
 nmap <F3> :Rg<CR>
 

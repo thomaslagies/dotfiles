@@ -27,6 +27,12 @@ function mock {
   echo $MOCK | xclip -selection clipboard
 }
 
+function record(){
+  FILENAME=${1:-/tmp/`date "+%Y%m%d_%H%M%S"`.mp4}
+  ffmpeg -f x11grab -r 30 `hacksaw -f "-s %wx%h -i :0.0+%x,%y"` -q:v 0 -q:a 0 $FILENAME
+  echo $FILENAME
+}
+
 function code-fn {
   rm -rf ~/.config/Code/Workspaces
   code .
