@@ -16,9 +16,9 @@ set shell="/home/thomas/.oh-my-zsh"
 command! -nargs=* Wrap set wrap linebreak nolist 
 
 call plug#begin('~/.vim/plugged')
+  Plug 'gruvbox-community/gruvbox'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
-  Plug 'gruvbox-community/gruvbox'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'preservim/nerdtree'
   Plug 'hashivim/vim-terraform'
@@ -36,12 +36,10 @@ let NERDTreeShowHidden=1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
-nmap <F1> :FZF --preview 'bat --color=always --style=numbers --line-range=:500 {}' --bind shift-up:preview-page-up,shift-down:preview-page-down<CR>
-nmap <F2> :NERDTreeToggle<CR> 
-nmap <F3> :Rg<CR>
+nnoremap <F1> :FZF<CR>
+nnoremap <F2> :NERDTreeToggle<CR> 
+nnoremap <F3> :Rg<CR>
 
-nnoremap <A-q> :tabclose<CR>
-nnoremap <A-Left> :tabprevious<CR>
-nnoremap <A-Right> :tabnext<CR>
-nnoremap <A-Up> :tabfirst<CR>
-nnoremap <A-Down> :tablast<CR>
+nnoremap <A-Left> :bprevious<CR>
+nnoremap <A-Down> :bd<CR>
+nnoremap <A-Right> :bnext<CR>
