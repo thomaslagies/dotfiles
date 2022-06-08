@@ -1,7 +1,7 @@
 export EDITOR="nvim"
 export NVM_DIR="$HOME/.nvm"
 export ZSH="/home/thomas/.oh-my-zsh"
-
+export FZF_DEFAULT_COMMAND='ag --hidden --ignore .git --ignore node_modules -g ""'
 # ZSH THEME AND PLUGINS
 ZSH_THEME="powerlevel10k/powerlevel10k"
 [ -f $ZSH/oh-my-zsh.sh ] && source $ZSH/oh-my-zsh.sh

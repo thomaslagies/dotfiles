@@ -10,6 +10,7 @@ alias grep='grep --color=auto'
 alias kc=kubectl
 alias ll='ls -hNla --color=auto --group-directories-first'
 alias ls='ls --color=auto'
+alias gn='nvim ~/git'
 alias nr='npm run'
 alias pp='curl --max-time 5 -s parrot.live'
 alias r='exec zsh'
