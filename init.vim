@@ -27,9 +27,12 @@ let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' --preview 'bat --style=numbe
 command! -nargs=* Wrap set wrap linebreak nolist 
 
 call plug#begin('~/.vim/plugged')
+  Plug 'nvim-lua/plenary.nvim'
+  Plug 'ThePrimeagen/harpoon'
   Plug 'gruvbox-community/gruvbox'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
+  Plug 'prettier/vim-prettier', { 'do': 'yarn install --frozen-lockfile --production' }
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'hashivim/vim-terraform'
   Plug 'vim-airline/vim-airline'
@@ -42,7 +45,7 @@ highlight Normal guibg=none
 
 " Run prettier on InsertLeave or with :Prettier
 autocmd InsertLeave * silent call CocAction('runCommand', 'prettier.formatFile')
-command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+" command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
@@ -54,11 +57,4 @@ nnoremap <A-Left> :bprevious<CR>
 nnoremap <A-Down> :bd<CR>
 nnoremap <A-Right> :bnext<CR>
 
-inoremap " ""<left>
-inoremap ' ''<left>
-inoremap ( ()<left>
-inoremap [ []<left>
-inoremap { {}<left>
-inoremap {<CR> {<CR>}<ESC>O
-inoremap {;<CR> {<CR>};<ESC>O
-
+noremap <leader>sv :source $MYVIMRC<CR>

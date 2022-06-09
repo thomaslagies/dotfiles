@@ -1,3 +1,4 @@
 {
-  "coc.preferences.formatOnSaveFiletypes": ["javascript", "markdown"]
+  "coc.preferences.formatOnSaveFiletypes": ["javascript", "markdown"],
+  "suggest.autoTrigger": "none"
 }
