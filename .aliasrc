@@ -83,10 +83,11 @@ function testjob {
 }
 
 function update-node {
+  PREVIOUS_NODE_VERSION=$(nvm version)
   GITHUB_TOKEN=${GITHUB_TOKEN:-`grep authToken $HOME/.npmrc | sed -r 's|//npm.pkg.github.com/:_authToken=(.*)$|\1|'`}
   NODE_VERSION=`curl -sf -H 'Cache-Control: no-cache' "https://$GITHUB_TOKEN@raw.githubusercontent.com/sealsystems/generator-seal-node/master/lib/constants.js" | grep "NODE_VERSION" | cut -f2 -d"'"`
   [ $NODE_VERSION ]
-  nvm install --default $NODE_VERSION || echo "NODE_VERSION not found, invalid GITHUB_TOKEN?"
+  nvm install --default $NODE_VERSION --reinstall-packages-from=$PREVIOUS_NODE_VERSION || echo "NODE_VERSION not found, invalid GITHUB_TOKEN?"
 }
 
 function perf() {
