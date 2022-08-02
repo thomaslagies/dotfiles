@@ -1,20 +1,14 @@
-alias .....='cd ../../../../'
-alias ....='cd ../../../'
 alias ...='cd ../../'
 alias ..='cd ..'
-alias .='code-fn'
+alias .='nvim .'
 alias c='clear'
 alias dco=docker-compose
 alias doc=docker-compose
 alias grep='grep --color=auto'
-alias kc=kubectl
 alias ll='ls -hNla --color=auto --group-directories-first'
 alias ls='ls --color=auto'
-alias gn='nvim ~/git'
 alias nr='npm run'
 alias pp='curl --max-time 5 -s parrot.live'
-alias r='exec zsh'
-alias stats=bpytop
 alias tf=terraform
 alias tfa='terraform apply --auto-approve'
 alias tfd='terraform destroy --auto-approve'
@@ -32,11 +26,6 @@ function record(){
   FILENAME=${1:-/tmp/`date "+%Y%m%d_%H%M%S"`.mp4}
   ffmpeg -f x11grab -r 30 `hacksaw -f "-s %wx%h -i :0.0+%x,%y"` -q:v 0 -q:a 0 $FILENAME
   echo $FILENAME
-}
-
-function code-fn {
-  rm -rf ~/.config/Code/Workspaces
-  code .
 }
 
 function co {
@@ -62,26 +51,6 @@ function iwipe {
 	docker image prune -a -f
 }
 
-# Set Kubernetes client to new context
-function kcctx {
-  if [ -n "$1" ]; then
-    selection="$1"
-    if [[ $selection =~ ^[0-9]+$ ]]; then
-      # Line number entered, get context from that line
-      selection=$(kubectl config get-contexts -o name --no-headers | sed "${selection}q;d")
-    fi
-    kubectl config use-context "${selection}"
-  else
-    kubectl config get-contexts --no-headers | tr -s " " | cut -d " " -f1,2,5 | sed 's/ / | /g' | sed -e 's/^ \| /  | /g' | nl -n rn -w 3 -s ' '
-  fi
-}
-
-function testjob {
-  bytes=`expr 1024 \* 1024 \* ${1:-1}`
-  printer=${2:-printer1}
-  rlpr -Hlocalhost -P$printer --verbose <<< `cat /dev/urandom | base64 | head -c $bytes`
-}
-
 function update-node {
   PREVIOUS_NODE_VERSION=$(nvm version)
   GITHUB_TOKEN=${GITHUB_TOKEN:-`grep authToken $HOME/.npmrc | sed -r 's|//npm.pkg.github.com/:_authToken=(.*)$|\1|'`}
@@ -90,31 +59,3 @@ function update-node {
   nvm install --default $NODE_VERSION --reinstall-packages-from=$PREVIOUS_NODE_VERSION || echo "NODE_VERSION not found, invalid GITHUB_TOKEN?"
 }
 
-function perf() {
-  # npm i -g fx
-  pushd $HOME/git/plossys-bundle
-  docker-compose exec db mongo --tls --tlsAllowInvalidCertificates spooler-jobs --eval "db.jobs.find({}, {_id: 1}).toArray()" \
-    | sed '0,/MongoDB server version: 5.0.5/d' \
-    | fx 'x => x.map(xx => xx._id).join("\n")' \
-    | xargs -I{} sh -c "docker-compose logs --no-color \
-    | grep {} \
-    | cut -d'|' -f2 \
-    | fx 'x => [x.isoTimestamp || new Date(x.timestamp).toJSON(), x.application.name.padEnd(16), x.message.padEnd(42), JSON.stringify(x.metadata)].join(\"\t\")' \
-    | sort \
-    | node -e '
-      const {createInterface} = require(\"readline\");
-      const logs = [];
-      createInterface(process.stdin)
-        .on(\"line\", log => logs.push(log))
-        .on(\"close\", () => {
-           logs.forEach((item, index, lines) => { 
-             const diff = new Date(item.split(\"\t\")[0]) - new Date(lines[index === 0 ? 0 : index-1].split(\"\t\")[0]);  
-             const abs = new Date(item.split(\"\t\")[0]) - new Date(lines[0].split(\"\t\")[0]);  
-             const diffline = isNaN(diff) ? item : [\"+\" + abs, \"+\" + diff, item].join(\"\t\");  
-             console.log(diffline);
-           })
-        }); 
-    '
-    "
-  popd
-}
