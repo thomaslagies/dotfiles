@@ -14,7 +14,7 @@ alias tfa='terraform apply --auto-approve'
 alias tfd='terraform destroy --auto-approve'
 alias wp='nitrogen ~/git/dotfiles/wallpapers --random --set-zoom-fill'
 alias gdelta="GIT_PAGER='delta --side-by-side --theme=gruvbox' git diff"
-alias gtrr="cd $(git rev-parse --show-toplevel)"
+alias gr="cd $(git root)"
 
 function mock {
   MOCK=$(node -p "process.argv.slice(1).map(w => w.split('').map((c)=>Math.random()<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')" $*)
