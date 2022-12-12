@@ -17,6 +17,14 @@ set cmdheight=2
 set updatetime=300
 set scrolloff=8
 set signcolumn=yes
+
+set number
+augroup numbertoggle
+  autocmd!
+  autocm BufEnter,FocusGained,InsertLeave,WinEnter * if &nu && mode() != "i" | set rnu   | endif
+  autocmd BufLeave,FocusLost,InsertEnter,WinLeave   * if &nu                  | set nornu | endif
+augroup END
+
 let $FZF_DEFAULT_OPTS="--preview-window 'right:57%' --preview 'bat --style=numbers --line-range :300 {}'
 \ --bind ctrl-y:preview-up,ctrl-e:preview-down,
 \ctrl-b:preview-page-up,ctrl-f:preview-page-down,
@@ -28,7 +36,9 @@ command! -nargs=* Wrap set wrap linebreak nolist
 
 call plug#begin('~/.vim/plugged')
   Plug 'nvim-lua/plenary.nvim'
+  Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0'}
   Plug 'ThePrimeagen/harpoon'
+  Plug 'ThePrimeagen/git-worktree.nvim'
   Plug 'gruvbox-community/gruvbox'
   Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
   Plug 'junegunn/fzf.vim'
@@ -44,17 +54,23 @@ set background=dark
 highlight Normal guibg=none
 
 " Run prettier on InsertLeave or with :Prettier
-autocmd InsertLeave * silent call CocAction('runCommand', 'prettier.formatFile')
+" autocmd InsertLeave * silent call CocAction('runCommand', 'prettier.formatFile')
 " command! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
 
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 
-nmap <F1> :Files<CR>
-nnoremap <F2> :Rg<CR>
+nmap <Leader>f :Files<CR>
+nnoremap <Leader>r :Rg<CR>
 
-nnoremap <A-Left> :bprevious<CR>
-nnoremap <A-Down> :bd<CR>
-nnoremap <A-Right> :bnext<CR>
+nnoremap <Leader><Left> :bprevious<CR>
+nnoremap <Leader><Down> :bd<CR>
+nnoremap <Leader><Right> :bnext<CR>
 
 noremap <leader>sv :source $MYVIMRC<CR>
+
+" Telescope
+nnoremap <leader>ff <cmd>Telescope find_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>

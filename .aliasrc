@@ -5,7 +5,7 @@ alias c='clear'
 alias dco=docker-compose
 alias doc=docker-compose
 alias grep='grep --color=auto'
-alias ll='ls -hNla --color=auto --group-directories-first'
+alias ll='gls -lash --color=auto --group-directories-first'
 alias ls='ls --color=auto'
 alias nr='npm run'
 alias pp='curl --max-time 5 -s parrot.live'
@@ -14,7 +14,7 @@ alias tfa='terraform apply --auto-approve'
 alias tfd='terraform destroy --auto-approve'
 alias wp='nitrogen ~/git/dotfiles/wallpapers --random --set-zoom-fill'
 alias gdelta="GIT_PAGER='delta --side-by-side --theme=gruvbox' git diff"
-alias gr="cd $(git root)"
+alias bye="sh $HOME/git/worktime/bye.sh"
 
 function mock {
   MOCK=$(node -p "process.argv.slice(1).map(w => w.split('').map((c)=>Math.random()<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')" $*)
@@ -37,6 +37,21 @@ function co {
 
 function pkey  {
   cat ~/.ssh/id_rsa.pub | xclip -selection clipboard
+}
+
+function crm () {
+  echo `Stopping, removing, restarting and attaching to $1`
+  docker compose kill $1 && docker compose rm $1 -f && docker compose up -d && docker compose logs -f $1
+}
+
+function fd() {
+  preview="git diff $@ --color=always -- {-1}"
+  git diff $@ --name-only | fzf -m --ansi --preview $preview
+}
+
+function fzb() {
+  local files
+    IFS=$'\n' files=($(fzf --preview 'bat {-1} --color=always')) && nvim "${files[@]}"
 }
 
 function dwipe {
