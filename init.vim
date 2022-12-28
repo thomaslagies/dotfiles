@@ -69,6 +69,10 @@ nnoremap <Leader><Right> :bnext<CR>
 
 noremap <leader>sv :source $MYVIMRC<CR>
 
+vnoremap("J", ":m '>+1<CR>gv=gv")
+vnoremap("K", ":m '<-2<CR>gv=gv")
+
+
 " Telescope
 nnoremap <leader>ff <cmd>Telescope find_files<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
