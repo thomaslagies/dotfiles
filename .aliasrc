@@ -15,6 +15,7 @@ alias tfd='terraform destroy --auto-approve'
 alias wp='nitrogen ~/git/dotfiles/wallpapers --random --set-zoom-fill'
 alias gdelta="GIT_PAGER='delta --side-by-side --theme=gruvbox' git diff"
 alias bye="sh $HOME/git/worktime/bye.sh"
+alias pick='git log -300 --oneline --color $1 | fzf -m --ansi --preview "git show --color {1}" | awk "{print $1}"'
 
 function mock {
   MOCK=$(node -p "process.argv.slice(1).map(w => w.split('').map((c)=>Math.random()<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')" $*)
@@ -44,7 +45,7 @@ function crm () {
   docker compose kill $1 && docker compose rm $1 -f && docker compose up -d && docker compose logs -f $1
 }
 
-function fd() {
+function gdi() {
   preview="git diff $@ --color=always -- {-1}"
   git diff $@ --name-only | fzf -m --ansi --preview $preview
 }
