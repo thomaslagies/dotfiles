@@ -1,4 +1,0 @@
-#!/bin/bash
-
-printf " 🐳 "
-printf "$(docker ps -q | wc -l)"

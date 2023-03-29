@@ -1,4 +1,0 @@
-#!/bin/bash
-
-printf " ⌚ "
-printf "$(date '+%A %e %B - %R')"

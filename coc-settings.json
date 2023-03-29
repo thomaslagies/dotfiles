@@ -1,4 +1,0 @@
-{
-  "coc.preferences.formatOnSaveFiletypes": ["javascript", "markdown"],
-  "suggest.autoTrigger": "none"
-}
