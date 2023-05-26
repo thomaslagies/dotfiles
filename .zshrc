@@ -16,7 +16,6 @@ fi
 source $ZSH/oh-my-zsh.sh
 [ -f $HOME/git/dotfiles/.aliasrc ] && source $HOME/git/dotfiles/.aliasrc
 
-source $HOME/.docker/init-zsh.sh || true # Added by Docker Desktop
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/sbin:$PATH"
 
