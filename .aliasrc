@@ -19,6 +19,14 @@ function npmc () {
   npm i
 }
 
+function npmu () {
+  cd $(git rev-parse --show-toplevel)
+  npm outdated
+  ncu --upgrade
+  rm package-lock.json
+  npm i
+}
+
 function dld () {
   # displays last 5 working days
   find $HOME/git/worktime/files -type f | sort -n | tail -5 | xargs -I % echo "echo ---; echo % | cut -d "/" -f7; cat %" | sh
