@@ -14,6 +14,10 @@ alias pick='git log -300 --oneline --color $1 | fzf -m --ansi --preview "git sho
 alias clc='fc -ln -1 | pbcopy'
 alias ckw='gdate +"Current calendar week: %U"'
 
+function gclone () {
+  gh repo clone sealsystems/$(cat ~/.repos | fzf --sync --height 60% --reverse --select-1 --query "'${1}")
+}
+
 function npmc () {
   rm -rf package-lock.json node_modules
   npm i
