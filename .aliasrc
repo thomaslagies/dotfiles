@@ -13,8 +13,13 @@ alias bye="sh $HOME/git/worktime/bye.sh"
 alias pick='git log -300 --oneline --color $1 | fzf -m --ansi --preview "git show --color {1}" | awk "{print $1}"'
 alias clc='fc -ln -1 | pbcopy'
 alias ckw='gdate +"Current calendar week: %U"'
+alias loadnvm='[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
 
-function gclone () {
+function pass() {
+    keepassxc-cli show -s -f Password /path/to/your/database.kdbx "$1"
+}
+
+function ghc () {
   gh repo clone sealsystems/$(cat ~/.repos | fzf --sync --height 60% --reverse --select-1 --query "'${1}")
 }
 
