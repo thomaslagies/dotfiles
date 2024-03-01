@@ -1,4 +1,5 @@
 alias .='nvim .'
+alias ll='ls -lash'
 alias doc=docker-compose
 alias dco=docker-compose #hehe
 alias grep='grep --color=auto'
@@ -14,6 +15,11 @@ alias pick='git log -300 --oneline --color $1 | fzf -m --ansi --preview "git sho
 alias clc='fc -ln -1 | pbcopy'
 alias ckw='gdate +"Current calendar week: %U"'
 alias loadnvm='[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
+
+alias gst='git status'
+alias gcam='git add $1 && git commit -m . && git status'
+alias gp='git push'
+alias gl='git pull'
 
 function pass() {
     keepassxc-cli show -s -f Password /path/to/your/database.kdbx "$1"
