@@ -1,1 +1,29 @@
-starship.toml
+# Get editor completions based on the config schema
+"$schema" = 'https://starship.rs/config-schema.json'
+
+# Inserts a blank line between shell prompts
+add_newline = true
+command_timeout = 5000
+
+[aws]
+disabled = true
+
+[azure]
+disabled = true
+
+[docker_context]
+disabled = true
+
+[git_branch]
+format = '[$symbol$branch(:$remote_branch )]($style) '
+
+[nodejs]
+format = '[$symbol($version )]($style)'
+version_format = 'v${raw}'
+
+[ruby]
+disabled = true
+
+[package]
+disabled = true
+
