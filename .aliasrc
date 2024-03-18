@@ -20,6 +20,17 @@ alias gst='git status'
 alias gcam='git add $1 && git commit -m . && git status'
 alias gp='git push'
 alias gl='git pull'
+alias gcm='git checkout master && git pull'
+
+dcl() {
+  tmux new-window "docker-compose logs -f $1"
+  shift
+  for i in "$@"; do
+    tmux split-window -h "docker-compose logs -f $i"
+    tmux select-layout even-horizontal
+  done
+  tmux select-pane -t 0
+}
 
 function pass() {
     keepassxc-cli show -s -f Password /path/to/your/database.kdbx "$1"

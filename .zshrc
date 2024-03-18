@@ -27,7 +27,8 @@ setopt HIST_IGNORE_SPACE
 setopt HIST_SAVE_NO_DUPS 
 setopt HIST_VERIFY      
 
-source /opt/homebrew/Cellar/fzf/0.46.1/shell/key-bindings.zsh
+FZF_VERSION=$(fzf --version | cut -d' ' -f1)
+source /opt/homebrew/Cellar/fzf/$FZF_VERSION/shell/key-bindings.zsh
 
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 [ -f $HOME/git/dotfiles/.aliasrc ] && source $HOME/git/dotfiles/.aliasrc

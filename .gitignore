@@ -10,12 +10,5 @@
 
 *.log
 
-Applications/
-Library/
-Desktop/
-Documents/
-Downloads/
-Movies/
-Music/
-Pictures/
-Public/
+.config/tmux/plugins/*
+
