@@ -22,6 +22,11 @@ alias gp='git push'
 alias gl='git pull'
 alias gcm='git checkout master && git pull'
 
+ghw () {
+  b=$(git rev-parse --abbrev-ref HEAD)
+  gh repo view -w -b $b
+}
+
 dcl() {
   tmux new-window "docker-compose logs -f $1"
   shift
