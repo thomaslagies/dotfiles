@@ -33,5 +33,6 @@ source /opt/homebrew/Cellar/fzf/$FZF_VERSION/shell/key-bindings.zsh
 [ -f $HOME/.fzf.zsh ] && source $HOME/.fzf.zsh
 [ -f $HOME/git/dotfiles/.aliasrc ] && source $HOME/git/dotfiles/.aliasrc
 
+eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"

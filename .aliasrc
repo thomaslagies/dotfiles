@@ -22,6 +22,8 @@ alias gp='git push'
 alias gl='git pull'
 alias gcm='git checkout master && git pull'
 
+alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
+
 ghw () {
   b=$(git rev-parse --abbrev-ref HEAD)
   gh repo view -w -b $b

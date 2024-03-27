@@ -52,3 +52,4 @@ vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><
 vim.keymap.set("n", "<leader>n", ":bnext<CR>")
 vim.keymap.set("n", "<leader>m", ":bprevious<CR>")
 
+vim.keymap.set("n", "<leader>g", function() vim.cmd('! tmux new-window -n git "lazygit"') end)
