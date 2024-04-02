@@ -2,6 +2,7 @@ vim.opt.guicursor = ""
 vim.g.mapleader = " "
 
 vim.opt.number = true
+vim.opt.relativenumber = true
 
 vim.opt.tabstop = 2
 vim.opt.softtabstop = 2
@@ -21,7 +22,7 @@ vim.opt.incsearch = true
 
 vim.opt.termguicolors = true
 
-vim.opt.scrolloff = 8
+vim.opt.scrolloff = 12
 vim.opt.signcolumn = "yes"
 
 vim.opt.updatetime = 50
@@ -42,16 +43,28 @@ vim.keymap.set("n", "n", "nzzzv")
 vim.keymap.set("n", "N", "Nzzzv")
 
 vim.keymap.set("x", "<leader>p", '"_dP')
-
 vim.keymap.set("n", "<leader>y", '"+y')
 vim.keymap.set("v", "<leader>y", '"+y')
 
 vim.keymap.set("n", "Q", "<nop>")
 vim.keymap.set("n", "<leader>s", [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
+vim.keymap.set("n", "<leader>r", [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]])
 
 vim.keymap.set("n", "<leader>n", ":bnext<CR>")
 vim.keymap.set("n", "<leader>m", ":bprevious<CR>")
 
 vim.keymap.set("n", "<leader>gg", function()
-	 vim.cmd('! tmux new-window -n git "lazygit"')
+	vim.cmd('silent ! tmux new-window -n git "lazygit"')
 end, { noremap = true, silent = true })
+
+-- toggle between absolute and absolute/relative line numbers
+vim.keymap.set("n", "<leader>ln", function()
+  if vim.wo.relativenumber then
+    vim.opt.relativenumber = false
+    vim.opt.number = true
+  else
+    vim.opt.relativenumber = true
+    vim.opt.number = true
+  end
+end, { noremap = true, silent = true })
+
