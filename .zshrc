@@ -1,8 +1,9 @@
 export DOCKER_HOST=unix:///$HOME/.colima/docker.sock
 export EDITOR="nvim"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore "^.git$" --ignore "^node_modules$" -g ""'
-export NVM_DIR="$HOME/.nvm"
-export NVM_LAZY_LOAD=true
+export LANGUAGE=en_US:en
+#export NVM_LAZY_LOAD=true
+export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
@@ -26,6 +27,10 @@ setopt HIST_FIND_NO_DUPS
 setopt HIST_IGNORE_SPACE  
 setopt HIST_SAVE_NO_DUPS 
 setopt HIST_VERIFY      
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh" # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 FZF_VERSION=$(fzf --version | cut -d' ' -f1)
 source /opt/homebrew/Cellar/fzf/$FZF_VERSION/shell/key-bindings.zsh
