@@ -13,6 +13,9 @@ if [ -d "${HOME}/Library/Python" ]; then
   export PATH="${HOME}/Library/Python/${PYTHON_VERSION}/bin:${PATH}"
 fi
 
+bindkey '^[b' backward-word
+bindkey '^[f' forward-word
+
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=500000
 SAVEHIST=500000
