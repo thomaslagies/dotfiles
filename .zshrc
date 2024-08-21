@@ -13,8 +13,10 @@ if [ -d "${HOME}/Library/Python" ]; then
   export PATH="${HOME}/Library/Python/${PYTHON_VERSION}/bin:${PATH}"
 fi
 
-bindkey '^[b' backward-word
-bindkey '^[f' forward-word
+# bindkey '^[b' backward-word
+# bindkey '^[f' forward-word
+bindkey '^[[1;3D' forward-word
+bindkey '^[[1;3C' backward-word
 
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=500000
