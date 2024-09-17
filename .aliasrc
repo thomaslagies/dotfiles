@@ -1,4 +1,5 @@
 alias .='nvim .'
+alias k='kubectl'
 alias c='clear'
 alias ll='ls -lash'
 alias doc=docker-compose
@@ -24,6 +25,7 @@ alias gl='git pull'
 alias gcm='git checkout master && git pull'
 
 alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
+alias ai='nvim +CopilotChatStart'
 
 ghw () {
   b=$(git rev-parse --abbrev-ref HEAD)
@@ -91,7 +93,7 @@ function fizy {
   find . -type d \( -path ./node_modules -o -path ./.git \) -prune -o -type f | fzy
 }
 
-function gho {
+function rh {
   cd $(git rev-parse --show-toplevel)
 }
 
@@ -132,5 +134,16 @@ function update-node {
   NODE_VERSION=`curl -sf -H 'Cache-Control: no-cache' "https://$GITHUB_TOKEN@raw.githubusercontent.com/sealsystems/generator-seal-node/master/lib/constants.js" | grep "NODE_VERSION" | cut -f2 -d"'"`
   [ $NODE_VERSION ]
   nvm install --default $NODE_VERSION --reinstall-packages-from=$PREVIOUS_NODE_VERSION || echo "NODE_VERSION not found, invalid GITHUB_TOKEN?"
+}
+
+function oib {
+#open git repo in browser
+  if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    repo_url=$(git config --get remote.origin.url)
+    repo_path=$(echo "$repo_url" | sed -E 's/.*github.com[:\/](.*)\.git/\1/')
+    echo "$repo_path" | xargs -I {} open -a "Zen Browser" "https://github.com/{}"
+  else
+    echo "E: Not inside a repository."
+  fi
 }
 

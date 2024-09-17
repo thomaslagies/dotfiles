@@ -1,4 +1,4 @@
-export DOCKER_HOST=unix:///$HOME/.colima/docker.sock
+#export DOCKER_HOST=unix:///$HOME/.colima/docker.sock
 export EDITOR="nvim"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore "^.git$" --ignore "^node_modules$" -g ""'
 export LANGUAGE=en_US:en
@@ -15,8 +15,8 @@ fi
 
 # bindkey '^[b' backward-word
 # bindkey '^[f' forward-word
-bindkey '^[[1;3D' forward-word
-bindkey '^[[1;3C' backward-word
+bindkey '^[[1;3D' backward-word
+bindkey '^[[1;3C' forward-word
 
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=500000
