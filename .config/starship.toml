@@ -27,3 +27,7 @@ disabled = true
 [package]
 disabled = true
 
+[character]
+error_symbol = "[[😡](red) ❯](peach)"
+ 
+ 

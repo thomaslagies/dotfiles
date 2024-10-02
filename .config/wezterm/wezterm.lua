@@ -2,6 +2,7 @@ local wezterm = require("wezterm")
 
 local config = wezterm.config_builder()
 
+config.font = wezterm.font("RobotoMono Nerd Font", {weight="DemiBold"})
 config.font_size = 20.0
 
 config.enable_tab_bar = false
