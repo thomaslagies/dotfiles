@@ -3,8 +3,8 @@ alias bye="sh $HOME/git/worktime/bye.sh"
 alias c='clear'
 alias ckw='gdate +"Current calendar week: %U"'
 alias clc='fc -ln -1 | pbcopy'
-alias dco=docker-compose #hehe
-alias doc=docker-compose
+alias dco=docker compose #hehe
+alias doc=docker compose
 alias grep='grep --color=auto'
 alias intip='ifconfig | grep "inet " | grep -v 127.0.0.1'
 alias k='kubectl'
@@ -28,7 +28,21 @@ alias gst='git status'
 alias ai='nvim +CopilotChatStart'
 alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
 
-function plog () {
+function showf () {
+# shows all functions in .aliasrc
+  file_to_grep="$HOME/git/dotfiles/.aliasrc"
+  RED='\033[0;31m'
+  NC='\033[0m' # No Color
+  grep -A 1 -w '^function' "$file_to_grep" | awk -v red="$RED" -v nc="$NC" '
+  /function/ { 
+      printf "%s%s%s %s ", red, $1, nc, $2 
+      getline
+      print
+  }' | sort
+}
+
+function dcol () {
+# displays docker compose logs in a human readable table.
 docker compose logs $1 --no-log-prefix \
   | grep -E '^\{.*\}$' \
   | jq -r '. | "\(.timestamp)\t\(.message)"' \
@@ -36,34 +50,40 @@ docker compose logs $1 --no-log-prefix \
 }
 
 function ghw () {
+# opens repo in browser
   b=$(git rev-parse --abbrev-ref HEAD)
   gh repo view -w -b $b
 }
 
-function dcl() {
-  tmux new-window "docker-compose logs -f $1"
+function dcols () {
+# creates dco log session
+  tmux new-window "docker compose logs -f $1"
   shift
   for i in "$@"; do
-    tmux split-window -h "docker-compose logs -f $i"
+    tmux split-window -h "docker compose logs -f $i"
     tmux select-layout even-horizontal
   done
   tmux select-pane -t 0
 }
 
-function pass() {
+function pass () {
+# shows pass db
     keepassxc-cli show -s -f Password /path/to/your/database.kdbx "$1"
 }
 
-function ghc () {
+function ghclone () {
+# clones github repos via fzf
   gh repo clone sealsystems/$(cat ~/.repos | fzf --sync --height 60% --reverse --select-1 --query "'${1}")
 }
 
 function npmc () {
+# clean npm installation
   rm -rf package-lock.json node_modules
   npm i
 }
 
 function npmu () {
+# npm update dependencies
   cd $(git rev-parse --show-toplevel)
   npm outdated
   ncu --upgrade
@@ -72,71 +92,87 @@ function npmu () {
 }
 
 function dld () {
-  # displays last 5 working days
+# displays last 5 working days
   find $HOME/git/worktime/files -type f | sort -n | tail -5 | xargs -I % echo "echo ---; echo % | cut -d "/" -f7; cat %" | sh
 }
 
 function dps () {
+# pretty docker ps
  docker ps --format "table {{.ID}}\t{{.Names}}\t{{.Image}}\t{{.State}}\t{{.CreatedAt}}"
 }
 
-function mock {
+function mock () {
+# spongebob mock
   MOCK=$(node -p "process.argv.slice(1).map(w => w.split('').map((c)=>Math.random()<=0.5?c.toUpperCase():c.toLowerCase()).join('')).join(' ')" $*)
   echo $MOCK
   echo $MOCK | pbcopy
 }
 
-function co {
+function co (){
+# adds co-authored to git commit message
   for handle in "$@"
   do
     echo "Co-authored-by: $handle <$handle@users.noreply.github.com>"
   done
 } 
 
-function extip {
+function extip () {
+# shows external ip addres
   curl ifconfig.me
 }
 
-function fizy {
+function fizy () {
+# no info
   find . -type d \( -path ./node_modules -o -path ./.git \) -prune -o -type f | fzy
 }
 
-function rh {
+function ghh () {
+# returns to git repos root
   cd $(git rev-parse --show-toplevel)
 }
 
-function pkey  {
+function pkey () {
+# copies public key to clipboard
   cat ~/.ssh/id_rsa.pub | xclip -selection clipboard
 }
 
-function gdi() {
+function gdi () {
+# pretty git diff
   preview="git diff $@ --color=always -- {-1}"
   git diff $@ --name-only | fzf -m --ansi --preview $preview
 }
 
-function fzb() {
+function fzb () {
+# no info
   local files
     IFS=$'\n' files=($(fzf --preview 'bat {-1} --color=always')) && nvim "${files[@]}"
 }
 
-function dwipe {
+function dwipe () {
+# wipes all docker containers/volumes/...
   echo "Stopping and removing all containers"
   docker kill $(docker container ls -aq)
   echo "Removing all stopped containers, networks, dangling images and build cache"
   docker system prune --force --volumes
 }
 
-function dres () {
+function dcores () {
+# restarts ($1/all) docker container(s)
   echo `Stopping, removing, restarting and attaching to $1`
   docker compose kill $1 && docker compose rm $1 -f && docker compose up -d && docker compose logs -f $1
 }
 
-function iwipe {
-  echo "Removing all images"
-	docker image prune -a -f
+function iwipe () {
+# wipes ($1/all) docker image(s)
+  if [ -n "$1" ]; then
+    docker rmi "$1"
+  else
+    docker image prune -a -f
+  fi
 }
 
-function update-node {
+function update-node () {
+# updates node to seal version
   PREVIOUS_NODE_VERSION=$(nvm version)
   GITHUB_TOKEN=${GITHUB_TOKEN:-`grep authToken $HOME/.npmrc | sed -r 's|//npm.pkg.github.com/:_authToken=(.*)$|\1|'`}
   NODE_VERSION=`curl -sf -H 'Cache-Control: no-cache' "https://$GITHUB_TOKEN@raw.githubusercontent.com/sealsystems/generator-seal-node/master/lib/constants.js" | grep "NODE_VERSION" | cut -f2 -d"'"`
@@ -144,7 +180,7 @@ function update-node {
   nvm install --default $NODE_VERSION --reinstall-packages-from=$PREVIOUS_NODE_VERSION || echo "NODE_VERSION not found, invalid GITHUB_TOKEN?"
 }
 
-function oib {
+function oib () {
 #open git repo in browser without gh installed
   if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
     repo_url=$(git config --get remote.origin.url)
