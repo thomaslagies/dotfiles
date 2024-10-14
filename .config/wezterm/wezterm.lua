@@ -4,14 +4,13 @@ local config = wezterm.config_builder()
 
 config.font = wezterm.font("RobotoMono Nerd Font", {weight="DemiBold"})
 config.font_size = 20.0
+config.color_scheme = "Catppuccin Mocha"
 
 config.enable_tab_bar = false
 config.window_decorations = "RESIZE"
 
-config.color_scheme = "Catppuccin Mocha"
+config.audible_bell = "Disabled"
 
 config.keys = {}
-
-config.audible_bell = "Disabled"
 
 return config

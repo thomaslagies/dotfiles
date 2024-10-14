@@ -1,38 +1,46 @@
 alias .='nvim .'
-alias k='kubectl'
+alias bye="sh $HOME/git/worktime/bye.sh"
 alias c='clear'
-alias ll='ls -lash'
-alias doc=docker-compose
+alias ckw='gdate +"Current calendar week: %U"'
+alias clc='fc -ln -1 | pbcopy'
 alias dco=docker-compose #hehe
+alias doc=docker-compose
 alias grep='grep --color=auto'
+alias intip='ifconfig | grep "inet " | grep -v 127.0.0.1'
+alias k='kubectl'
 alias ll='gls -lash --color=auto --group-directories-first'
+alias ll='ls -lash'
+alias loadnvm='[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
 alias ls='ls --color=auto'
 alias nr='npm run'
+alias pick='git log -300 --oneline --color $1 | fzf -m --ansi --preview "git show --color {1}" | awk "{print $1}"'
 alias pp='curl --max-time 5 -s parrot.live'
 alias tf=terraform
 alias tfa='terraform apply --auto-approve'
 alias tfd='terraform destroy --auto-approve'
-alias bye="sh $HOME/git/worktime/bye.sh"
-alias pick='git log -300 --oneline --color $1 | fzf -m --ansi --preview "git show --color {1}" | awk "{print $1}"'
-alias clc='fc -ln -1 | pbcopy'
-alias ckw='gdate +"Current calendar week: %U"'
-alias loadnvm='[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"'
 
-alias gst='git status'
 alias gcam='git add $1 && git commit -m . && git status'
-alias gp='git push'
-alias gl='git pull'
 alias gcm='git checkout master && git pull'
+alias gl='git pull'
+alias gp='git push'
+alias gst='git status'
 
-alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
 alias ai='nvim +CopilotChatStart'
+alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
 
-ghw () {
+function plog () {
+docker compose logs $1 --no-log-prefix \
+  | grep -E '^\{.*\}$' \
+  | jq -r '. | "\(.timestamp)\t\(.message)"' \
+  | awk -F'\t' 'BEGIN {print "Timestamp\t\t\tMessage"} {printf "%-30s %s\n", $1, $2}'
+}
+
+function ghw () {
   b=$(git rev-parse --abbrev-ref HEAD)
   gh repo view -w -b $b
 }
 
-dcl() {
+function dcl() {
   tmux new-window "docker-compose logs -f $1"
   shift
   for i in "$@"; do
@@ -118,7 +126,7 @@ function dwipe {
   docker system prune --force --volumes
 }
 
-function drestart () {
+function dres () {
   echo `Stopping, removing, restarting and attaching to $1`
   docker compose kill $1 && docker compose rm $1 -f && docker compose up -d && docker compose logs -f $1
 }
@@ -137,7 +145,7 @@ function update-node {
 }
 
 function oib {
-#open git repo in browser
+#open git repo in browser without gh installed
   if git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
     repo_url=$(git config --get remote.origin.url)
     repo_path=$(echo "$repo_url" | sed -E 's/.*github.com[:\/](.*)\.git/\1/')
