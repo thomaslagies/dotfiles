@@ -3,8 +3,8 @@ alias bye="sh $HOME/git/worktime/bye.sh"
 alias c='clear'
 alias ckw='gdate +"Current calendar week: %U"'
 alias clc='fc -ln -1 | pbcopy'
-alias dco=docker compose #hehe
-alias doc=docker compose
+alias dco='docker compose' #hehe
+alias doc='docker compose'
 alias grep='grep --color=auto'
 alias intip='ifconfig | grep "inet " | grep -v 127.0.0.1'
 alias k='kubectl'
