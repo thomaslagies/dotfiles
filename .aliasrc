@@ -1,11 +1,18 @@
 alias .='nvim .'
+alias ai='nvim +CopilotChatStart'
+alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
 alias bye="sh $HOME/git/worktime/bye.sh"
 alias c='clear'
 alias ckw='gdate +"Current calendar week: %U"'
 alias clc='fc -ln -1 | pbcopy'
 alias dco='docker compose' #hehe
 alias doc='docker compose'
+alias gcam='git add $1 && git commit -m . && git status'
+alias gcm='git checkout master && git pull'
+alias gl='git pull'
+alias gp='git push'
 alias grep='grep --color=auto'
+alias gst='git status'
 alias intip='ifconfig | grep "inet " | grep -v 127.0.0.1'
 alias k='kubectl'
 alias ll='gls -lash --color=auto --group-directories-first'
@@ -18,15 +25,6 @@ alias pp='curl --max-time 5 -s parrot.live'
 alias tf=terraform
 alias tfa='terraform apply --auto-approve'
 alias tfd='terraform destroy --auto-approve'
-
-alias gcam='git add $1 && git commit -m . && git status'
-alias gcm='git checkout master && git pull'
-alias gl='git pull'
-alias gp='git push'
-alias gst='git status'
-
-alias ai='nvim +CopilotChatStart'
-alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
 
 function showf () {
 # shows all functions in .aliasrc
@@ -41,12 +39,17 @@ function showf () {
   }' | sort
 }
 
+function drm () {
+  name=$(basename "$PWD")
+  dco kill $1 || true
+  docker rm "$name"-"$1"-1; dco up -d "$1"
+}
+
 function dcol () {
-# displays docker compose logs in a human readable table.
-docker compose logs $1 --no-log-prefix \
-  | grep -E '^\{.*\}$' \
-  | jq -r '. | "\(.timestamp)\t\(.message)"' \
-  | awk -F'\t' 'BEGIN {print "Timestamp\t\t\tMessage"} {printf "%-30s %s\n", $1, $2}'
+# displays docker compose logs in a human readable table
+  docker compose logs $1 --no-log-prefix \
+    | grep -E '^\{.*\}$' \
+    | fx 'x => `${x.isoTimestamp} ${x.message} ${JSON.stringify(x.metadata, null, 2)}`'
 }
 
 function ghw () {

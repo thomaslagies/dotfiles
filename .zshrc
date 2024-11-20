@@ -1,12 +1,13 @@
 #export DOCKER_HOST=unix:///$HOME/.colima/docker.sock
+#export NVM_LAZY_LOAD=true
+export DOCKER_DEFAULT_PLATFORM=linux/amd64
 export EDITOR="nvim"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore "^.git$" --ignore "^node_modules$" -g ""'
 export LANGUAGE=en_US:en
-#export NVM_LAZY_LOAD=true
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 export PATH="$HOME/.cargo/bin:$PATH"
-export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
+export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/sbin:$PATH"
 if [ -d "${HOME}/Library/Python" ]; then
   PYTHON_VERSION=$(ls -1 $HOME/Library/Python/ | sort -V | tail -n1)
