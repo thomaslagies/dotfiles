@@ -84,6 +84,9 @@ outer.right =      0
 # See: https://nikitabobko.github.io/AeroSpace/commands#exec-and-forget
 alt-enter = 'exec-and-forget open -a WezTerm'
 alt-z = 'exec-and-forget open -a "Zen Browser"'
+alt-backspace = 'exec-and-forget open -a "Spotify"'
+alt-s = 'exec-and-forget open -a "Safari"'
+alt-t = 'exec-and-forget open -a "Microsoft Teams"'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout
 alt-slash = 'layout tiles horizontal vertical'
