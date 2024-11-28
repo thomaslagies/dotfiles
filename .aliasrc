@@ -121,7 +121,7 @@ function co (){
 
 function extip () {
 # shows external ip addres
-  curl ifconfig.me
+  curl -4 ifconfig.me/ip
 }
 
 function fizy () {

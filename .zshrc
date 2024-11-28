@@ -1,5 +1,7 @@
 #export DOCKER_HOST=unix:///$HOME/.colima/docker.sock
 #export NVM_LAZY_LOAD=true
+autoload -Uz compinit
+compinit
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 export EDITOR="nvim"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore "^.git$" --ignore "^node_modules$" -g ""'
@@ -47,3 +49,4 @@ source /opt/homebrew/Cellar/fzf/$FZF_VERSION/shell/key-bindings.zsh
 eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
+eval "$(kubectl completion zsh)"
