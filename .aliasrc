@@ -1,5 +1,5 @@
 alias .='nvim .'
-alias ai='nvim +CopilotChatStart'
+alias ai='tmux new-window -n copilot "nvim +CopilotChatStart"'
 alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
 alias bye="sh $HOME/git/worktime/bye.sh"
 alias c='clear'
@@ -22,6 +22,7 @@ alias ls='ls --color=auto'
 alias nr='npm run'
 alias pick='git log -300 --oneline --color $1 | fzf -m --ansi --preview "git show --color {1}" | awk "{print $1}"'
 alias pp='curl --max-time 5 -s parrot.live'
+alias sdf='source ~/git/dotfiles/.aliasrc'
 alias tf=terraform
 alias tfa='terraform apply --auto-approve'
 alias tfd='terraform destroy --auto-approve'
@@ -39,7 +40,21 @@ function showf () {
   }' | sort
 }
 
+function notes () {
+# open notes file in new tmux window
+  tmux new-window -n notes "nvim ~/notes.md" 
+  tmux select-pane -t 0
+}
+
+functions ghc () {
+# gh repo clone for sealsystems org and cd into it
+  gh repo clone sealsystems/$1
+  cd $1
+  ls -lash
+}
+
 function drm () {
+# docker remove container and start it again detached
   name=$(basename "$PWD")
   dco kill $1 || true
   docker rm "$name"-"$1"-1; dco up -d "$1"

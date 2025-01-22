@@ -1,27 +1,27 @@
 return {
   {
     "williamboman/mason.nvim",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       require("mason").setup()
     end,
   },
   {
     "williamboman/mason-lspconfig.nvim",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       require("mason-lspconfig").setup({
-        ensure_installed = { "lua_ls", "tsserver" },
+        ensure_installed = { "lua_ls", "ts_ls" },
       })
     end,
   },
   {
     "neovim/nvim-lspconfig",
-    lazy = false,
+    event = "VeryLazy",
     config = function()
       local lspconfig = require("lspconfig")
       lspconfig.lua_ls.setup({})
-      lspconfig.tsserver.setup({})
+      lspconfig.ts_ls.setup({})
       lspconfig.bashls.setup({})
       vim.keymap.set("n", "K", vim.lsp.buf.hover, {})
       vim.keymap.set("n", "gd", vim.lsp.buf.definition, {})

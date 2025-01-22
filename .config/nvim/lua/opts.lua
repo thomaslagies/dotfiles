@@ -1,6 +1,8 @@
 vim.opt.guicursor = ""
 vim.g.mapleader = " "
 
+vim.ui.input = "Snacks.input"
+
 vim.opt.number = true
 vim.opt.relativenumber = true
 
