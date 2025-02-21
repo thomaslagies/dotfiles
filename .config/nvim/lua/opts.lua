@@ -32,6 +32,17 @@ vim.opt.colorcolumn = "120"
 vim.opt.textwidth = 120
 
 vim.g.copilot_no_tab_map = "v:true"
+-- Map <leader>h to decrease the width of the current vertical split
+vim.api.nvim_set_keymap('n', '<leader>h', ':vertical resize -5<CR>', { noremap = true, silent = true })
+
+-- Map <leader>l to increase the width of the current vertical split
+vim.api.nvim_set_keymap('n', '<leader>l', ':vertical resize +5<CR>', { noremap = true, silent = true })
+
+-- Map <leader>j to decrease the height of the current horizontal split
+vim.api.nvim_set_keymap('n', '<leader>j', ':resize -5<CR>', { noremap = true, silent = true })
+
+-- Map <leader>k to increase the height of the current horizontal split
+vim.api.nvim_set_keymap('n', '<leader>k', ':resize +5<CR>', { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 

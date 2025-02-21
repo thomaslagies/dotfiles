@@ -22,6 +22,6 @@ return {
 			twilight_enabled = not twilight_enabled
 		end
 
-		vim.api.nvim_set_keymap("n", "<leader>l", ":lua _G.toggle_twilight()<CR>", { noremap = true, silent = true })
+		vim.api.nvim_set_keymap("n", "<leader>li", ":lua _G.toggle_twilight()<CR>", { noremap = true, silent = true })
 	end,
 }

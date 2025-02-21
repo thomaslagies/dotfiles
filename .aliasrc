@@ -26,6 +26,7 @@ alias sdf='source ~/git/dotfiles/.aliasrc'
 alias tf=terraform
 alias tfa='terraform apply --auto-approve'
 alias tfd='terraform destroy --auto-approve'
+alias ed='tmux new-window "nvim ~/git/dotfiles"'
 
 function showf () {
 # shows all functions in .aliasrc
@@ -96,7 +97,10 @@ function ghclone () {
 
 function npmc () {
 # clean npm installation
+  echo 'Removing package-lock.json'
+  echo 'Removing node_modules folder'
   rm -rf package-lock.json node_modules
+  echo 'Run `npm install`'
   npm i
 }
 
