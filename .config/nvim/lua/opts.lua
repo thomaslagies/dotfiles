@@ -67,7 +67,8 @@ vim.keymap.set("n", "<leader>n", ":bnext<CR>")
 vim.keymap.set("n", "<leader>m", ":bprevious<CR>")
 
 vim.keymap.set("n", "<leader>gg", function()
-	vim.cmd('silent ! tmux new-window -n git "lazygit"')
+--	vim.cmd('silent ! tmux new-window -n git "lazygit"')
+  vim.cmd('silent ! wezterm cli spawn --new-window lazygit')
 end, { noremap = true, silent = true })
 
 -- toggle between absolute and absolute/relative line numbers

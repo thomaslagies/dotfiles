@@ -1,5 +1,4 @@
 alias .='nvim .'
-alias ai='tmux new-window -n copilot "nvim +CopilotChatStart"'
 alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
 alias bye="sh $HOME/git/worktime/bye.sh"
 alias c='clear'

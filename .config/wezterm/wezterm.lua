@@ -72,13 +72,20 @@ config.keys = {
     mods = "LEADER",
     action = wezterm.action({ SplitHorizontal = { domain = "CurrentPaneDomain" } }),
   },
+  {
+    key = "i",
+    mods = "LEADER",
+    action = wezterm.action.SpawnCommandInNewTab({
+      args = { "/opt/homebrew/bin/nvim", "+CopilotChatStart" },
+    }),
+  },
   { key = "o", mods = "LEADER",       action = "TogglePaneZoomState" },
   { key = "z", mods = "LEADER",       action = "TogglePaneZoomState" },
   { key = "c", mods = "LEADER",       action = wezterm.action({ SpawnTab = "CurrentPaneDomain" }) },
-  { key = "h", mods = "CTRL",       action = wezterm.action({ ActivatePaneDirection = "Left" }) },
-  { key = "j", mods = "CTRL",       action = wezterm.action({ ActivatePaneDirection = "Down" }) },
-  { key = "k", mods = "CTRL",       action = wezterm.action({ ActivatePaneDirection = "Up" }) },
-  { key = "l", mods = "CTRL",       action = wezterm.action({ ActivatePaneDirection = "Right" }) },
+  { key = "h", mods = "CTRL",         action = wezterm.action({ ActivatePaneDirection = "Left" }) },
+  { key = "j", mods = "CTRL",         action = wezterm.action({ ActivatePaneDirection = "Down" }) },
+  { key = "k", mods = "CTRL",         action = wezterm.action({ ActivatePaneDirection = "Up" }) },
+  { key = "l", mods = "CTRL",         action = wezterm.action({ ActivatePaneDirection = "Right" }) },
   { key = "H", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Left", 5 } }) },
   { key = "J", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Down", 5 } }) },
   { key = "K", mods = "LEADER|SHIFT", action = wezterm.action({ AdjustPaneSize = { "Up", 5 } }) },
@@ -105,6 +112,9 @@ for i = 1, 9 do
   })
 end
 
-bar.apply_to_config(config, { position = "top", separator = { left_icon = "", right_icon = "", field_icon = "", space = 2 } })
+bar.apply_to_config(
+  config,
+  { position = "top", separator = { left_icon = "", right_icon = "", field_icon = "", space = 2 } }
+)
 
 return config
