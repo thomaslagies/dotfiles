@@ -108,11 +108,6 @@ alt-j = 'focus down'
 alt-k = 'focus up'
 alt-l = 'focus right'
 
-# See: https://nikitabobko.github.io/AeroSpace/commands#move
-alt-shift-h = 'move left'
-alt-shift-j = 'move down'
-alt-shift-k = 'move up'
-alt-shift-l = 'move right'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#resize
 alt-shift-minus = 'resize smart -50'
@@ -122,6 +117,7 @@ alt-shift-equal = 'resize smart +50'
 alt-1 = 'workspace 1'
 alt-2 = 'workspace 2'
 alt-3 = 'workspace 3'
+alt-4 = 'workspace 4'
 alt-p = 'workspace P'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#move-node-to-workspace
@@ -139,10 +135,11 @@ alt-shift-tab = 'move-workspace-to-monitor --wrap-around next'
 1 = 'main'
 2 = 'main'
 3 = 'built-in'
+4 = 'built-in'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#mode
 alt-shift-semicolon = 'mode service'
-alt-r = 'mode resize'
+ctrl-shift-r = 'mode resize'
 # 'service' binding mode declaration.
 # See: https://nikitabobko.github.io/AeroSpace/guide#binding-modes
 [mode.service.binding]
@@ -152,10 +149,16 @@ r = ['flatten-workspace-tree', 'mode main'] # reset layout
 f = ['layout floating tiling', 'mode main'] # Toggle between floating and tiling layout
 backspace = ['close-all-windows-but-current', 'mode main']
 
-alt-shift-h = ['join-with left', 'mode main']
-alt-shift-j = ['join-with down', 'mode main']
-alt-shift-k = ['join-with up', 'mode main']
-alt-shift-l = ['join-with right', 'mode main']
+ctrl-shift-h = ['join-with left', 'mode main']
+ctrl-shift-j = ['join-with down', 'mode main']
+ctrl-shift-k = ['join-with up', 'mode main']
+ctrl-shift-l = ['join-with right', 'mode main']
+
+# See: https://nikitabobko.github.io/AeroSpace/commands#move
+# alt-shift-h = 'move left'
+# alt-shift-j = 'move down'
+# alt-shift-k = 'move up'
+# alt-shift-l = 'move right'
 
 [mode.resize.binding]
 h = 'resize width -50'

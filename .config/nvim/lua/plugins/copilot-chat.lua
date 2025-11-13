@@ -20,7 +20,10 @@ local prompts = {
 return {
   {
     "CopilotC-Nvim/CopilotChat.nvim",
-    version = "v2.11.0",
+--    version = "v2.11.0",
+    branch = "main",
+    model = "gpt-5",
+    temperature = 0.3,
     -- branch = "canary", -- Use the canary branch if you want to test the latest features but it might be unstable
     -- Do not use branch and version together, either use branch or version
     dependencies = {

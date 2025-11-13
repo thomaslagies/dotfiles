@@ -19,7 +19,7 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
 vim.opt.incsearch = true
 
 vim.opt.termguicolors = true
@@ -31,20 +31,35 @@ vim.opt.updatetime = 50
 vim.opt.colorcolumn = "120"
 vim.opt.textwidth = 120
 
+-- FZF settings
+vim.env.FZF_DEFAULT_OPTS = "--preview-window=right:60%" 
+vim.g.fzf_layout = {
+  window = {
+    width = 1,
+    height = 1,
+    yoffset = 1,
+    xoffset = 1,
+    border = "sharp",
+  },
+}
+
 vim.g.copilot_no_tab_map = "v:true"
 -- Map <leader>h to decrease the width of the current vertical split
-vim.api.nvim_set_keymap('n', '<leader>h', ':vertical resize -5<CR>', { noremap = true, silent = true })
+
+vim.keymap.set("n", "<leader>e", vim.diagnostic.open_float, { noremap = true, silent = true })
 
 -- Map <leader>l to increase the width of the current vertical split
-vim.api.nvim_set_keymap('n', '<leader>l', ':vertical resize +5<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>l", ":vertical resize +5<CR>", { noremap = true, silent = true })
 
 -- Map <leader>j to decrease the height of the current horizontal split
-vim.api.nvim_set_keymap('n', '<leader>j', ':resize -5<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>j", ":resize -5<CR>", { noremap = true, silent = true })
 
 -- Map <leader>k to increase the height of the current horizontal split
-vim.api.nvim_set_keymap('n', '<leader>k', ':resize +5<CR>', { noremap = true, silent = true })
+vim.api.nvim_set_keymap("n", "<leader>k", ":resize +5<CR>", { noremap = true, silent = true })
 
 vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+
+vim.keymap.set("n", "<leader>b", ":Buffers<CR>")
 
 vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
 vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
@@ -67,8 +82,8 @@ vim.keymap.set("n", "<leader>n", ":bnext<CR>")
 vim.keymap.set("n", "<leader>m", ":bprevious<CR>")
 
 vim.keymap.set("n", "<leader>gg", function()
---	vim.cmd('silent ! tmux new-window -n git "lazygit"')
-  vim.cmd('silent ! wezterm cli spawn --new-window lazygit')
+  --	vim.cmd('silent ! tmux new-window -n git "lazygit"')
+  vim.cmd("silent ! wezterm cli spawn --new-window lazygit")
 end, { noremap = true, silent = true })
 
 -- toggle between absolute and absolute/relative line numbers
@@ -81,4 +96,3 @@ vim.keymap.set("n", "<leader>ln", function()
     vim.opt.number = true
   end
 end, { noremap = true, silent = true })
-

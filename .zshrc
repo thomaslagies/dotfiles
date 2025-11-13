@@ -50,3 +50,6 @@ eval "$(fzf --zsh)"
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 eval "$(kubectl completion zsh)"
+
+# Created by `pipx` on 2025-09-11 13:26:54
+export PATH="$PATH:/Users/thomas.lagies/.local/bin"
