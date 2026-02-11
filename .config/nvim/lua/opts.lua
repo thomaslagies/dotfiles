@@ -96,3 +96,4 @@ vim.keymap.set("n", "<leader>ln", function()
     vim.opt.number = true
   end
 end, { noremap = true, silent = true })
+

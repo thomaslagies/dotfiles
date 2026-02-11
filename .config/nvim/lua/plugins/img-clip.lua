@@ -9,6 +9,6 @@ return {
 		},
 	},
 	keys = {
-		{ "<leader>i", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
+		{ "<leader>ci", "<cmd>PasteImage<cr>", desc = "Paste image from system clipboard" },
 	},
 }

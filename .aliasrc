@@ -1,4 +1,5 @@
 alias .='nvim .'
+alias bro=brew
 alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
 alias bye="sh $HOME/git/worktime/bye.sh"
 alias c='clear'
@@ -26,6 +27,7 @@ alias tf=terraform
 alias tfa='terraform apply --auto-approve'
 alias tfd='terraform destroy --auto-approve'
 alias ed='tmux new-window "nvim ~/git/dotfiles"'
+alias dotf='source $HOME/git/dotfiles/.env'
 
 function showf () {
 # shows all functions in .aliasrc
