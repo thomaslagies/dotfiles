@@ -61,9 +61,6 @@ vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
 
 vim.keymap.set("n", "<leader>b", ":Buffers<CR>")
 
-vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
-vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
-
 vim.keymap.set("n", "J", "mzJ`z")
 vim.keymap.set("n", "<C-d>", "<C-d>zz")
 vim.keymap.set("n", "<C-u>", "<C-u>zz")
@@ -96,4 +93,24 @@ vim.keymap.set("n", "<leader>ln", function()
     vim.opt.number = true
   end
 end, { noremap = true, silent = true })
+function SwapWithNextWindow()
+  local cur_win = vim.api.nvim_get_current_win()
+  local wins = vim.api.nvim_tabpage_list_wins(0)
+  if #wins < 2 then return end
+  local cur_idx
+  for i, w in ipairs(wins) do
+    if w == cur_win then cur_idx = i break end
+  end
+  local next_idx = (cur_idx % #wins) + 1
+  local cur_buf = vim.api.nvim_win_get_buf(cur_win)
+  local next_buf = vim.api.nvim_win_get_buf(wins[next_idx])
+  vim.api.nvim_win_set_buf(cur_win, next_buf)
+  vim.api.nvim_win_set_buf(wins[next_idx], cur_buf)
+end
+
+vim.keymap.set('n', '<leader>sw', SwapWithNextWindow, {desc = "Swap buffers between windows"})
+vim.keymap.set('n', 'H', '<C-w>h', {desc = "Go to left window"})
+vim.keymap.set('n', 'J', '<C-w>j', {desc = "Go to below window"})
+vim.keymap.set('n', 'K', '<C-w>k', {desc = "Go to above window"})
+vim.keymap.set('n', 'L', '<C-w>l', {desc = "Go to right window"})
 
