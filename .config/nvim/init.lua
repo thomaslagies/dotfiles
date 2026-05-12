@@ -85,7 +85,97 @@ vim.pack.add { 'https://github.com/stevearc/oil.nvim'}
 require("oil").setup()
 vim.keymap.set('n', '<leader>o', ':Oil<CR>', {desc = "Open Oil to search files"})
 
-vim.pack.add {'https://github.com/catppuccin/nvim'}
+-- vim.pack.add {'https://github.com/catppuccin/nvim'}
 vim.cmd.colorscheme('catppuccin')
 
-vim.pack.add {'https://github.com/neovim/nvim-lspconfig'}
+
+vim.pack.add {'https://github.com/nvim-lua/plenary.nvim'}
+vim.pack.add {'https://github.com/nvim-telescope/telescope.nvim'}
+vim.pack.add {'https://github.com/nvim-telescope/telescope-ui-select.nvim'}
+
+local telescope = require("telescope.builtin")
+vim.keymap.set("n", "<leader>pp", telescope.find_files, {})
+vim.keymap.set("n", "<leader>gr", telescope.live_grep, {})
+			require("telescope").setup({
+				pickers = {
+					find_files = {
+						hidden = true,
+						file_ignore_patterns = { "node_modules", ".git/" },
+					},
+					live_grep = {
+						additional_args = function()
+							return { "--hidden" }
+						end,
+					},
+				},
+				extensions = {
+					["ui-select"] = {
+						require("telescope.themes").get_dropdown({}),
+					},
+				},
+			})
+			require("telescope").load_extension("ui-select")
+
+vim.pack.add {'https://github.com/emrearmagan/atlas.nvim'}
+
+vim.lsp.config.tsgo = {
+	filetypes = { 'javascript', 'javascriptreact', 'typescript',  }
+}
+vim.lsp.enable('tsgo')
+
+vim.lsp.config.bashls = {
+  cmd = { 'bash-language-server', 'start' },
+  filetypes = { 'bash', 'sh' }
+}
+vim.lsp.enable 'bashls'
+
+vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
+
+vim.pack.add {'https://github.com/github/copilot.vim'}
+vim.keymap.set('i', '<C-.>', 'copilot#Next()', { expr = true, silent = true, desc = 'Next Copilot suggestion' })
+vim.keymap.set('i', '<C-,>', 'copilot#Previous()', { expr = true, silent = true, desc = 'Previous Copilot suggestion' })
+
+vim.pack.add {'https://github.com/CopilotC-Nvim/CopilotChat.nvim'}
+vim.g.copilot_no_tab_map = true
+vim.keymap.set('i', '<Tab>', 'copilot#Accept("\\<Tab>")', { expr = true, replace_keycodes = false })
+require("CopilotChat").setup({
+  window = {
+    layout = 'vertical',
+    -- width = 90, -- Fixed width in columns
+    -- height = 90, -- Fixed height in rows
+    title = '🤖 Copilot',
+    zindex = 100, -- Ensure window stays on top
+  },
+
+	context = "buffer",
+
+  selection = require("CopilotChat.select").buffer,
+
+  headers = {
+    user = '👤 You',
+    assistant = '🤖 Copilot',
+    tool = '🔧 Tool',
+  },
+
+  separator = '━━',
+  auto_fold = true, -- Automatically folds non-assistant messages
+})
+vim.keymap.set({'n','v','x'}, '<leader>ai', ':CopilotChat<CR>', { desc = 'Open Copilot Chat' })
+vim.keymap.set('n', '<leader>aa', function()
+  require("CopilotChat").open({ context = "buffer" })
+end, { desc = 'Open Copilot Chat with buffer context' })
+
+-- Make copilot suggestions work in the copilot-chat buffer
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "copilot-chat", 
+  callback = function()
+    vim.keymap.set('i', '<S-Tab>', 'copilot#Accept("\\<S-Tab>")', { expr = true, replace_keycodes = false, buffer = true })
+  end,
+})
+
+vim.keymap.set('n', '<leader>ag', function()
+  require('CopilotChat').ask('#buffer Explain this code', {
+    callback = function(response)
+    end,
+})
+end, { desc = 'Ask Copilot to explain code in current buffer' })

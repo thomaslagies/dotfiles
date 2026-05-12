@@ -1,5 +1,5 @@
 return {
-	-- "mistricky/codesnap.nvim",
-	-- build = "make",
-	-- event = "VeryLazy",
+	"mistricky/codesnap.nvim",
+	build = "make",
+	event = "VeryLazy",
 }
