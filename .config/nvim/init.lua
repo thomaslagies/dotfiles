@@ -24,8 +24,6 @@ vim.opt.incsearch = true
 vim.opt.scrolloff = 12
 vim.opt.signcolumn = "yes"
 
-vim.opt.textwidth = 120
-vim.opt.colorcolumn = "120"
 vim.opt.updatetime = 50
 
 vim.opt.confirm = true
@@ -129,6 +127,12 @@ vim.lsp.config.bashls = {
 }
 vim.lsp.enable 'bashls'
 
+vim.lsp.config.yamlls = {
+	cmd = { 'yaml-language-server', '--stdio' },
+	filetypes = { 'yaml', 'yml' }
+}
+vim.lsp.enable 'yamlls'
+
 vim.keymap.set("n", "<leader>gf", vim.lsp.buf.format, {})
 
 vim.pack.add {'https://github.com/github/copilot.vim'}
@@ -148,6 +152,7 @@ require("CopilotChat").setup({
   },
 
 	context = "buffer",
+	model = "claude-opus-4.6",
 
   selection = require("CopilotChat.select").buffer,
 
@@ -173,9 +178,82 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
-vim.keymap.set('n', '<leader>ag', function()
+vim.keymap.set({'n','v','x'}, '<leader>ag', function()
   require('CopilotChat').ask('#buffer Explain this code', {
     callback = function(response)
     end,
 })
 end, { desc = 'Ask Copilot to explain code in current buffer' })
+
+-- DAP (Debug Adapter Protocol) --
+vim.pack.add {'https://github.com/mfussenegger/nvim-dap'}
+vim.pack.add {'https://github.com/rcarriga/nvim-dap-ui'}
+vim.pack.add {'https://github.com/nvim-neotest/nvim-nio'}
+
+local dap = require("dap")
+local dapui = require("dapui")
+
+dapui.setup()
+
+dap.adapters['pwa-node'] = {
+  type = 'server',
+  host = 'localhost',
+  port = '${port}',
+  executable = {
+    command = 'node',
+    args = { vim.fn.expand('~/.local/share/nvim/js-debug/out/src/dapDebugServer.js'), '${port}' },
+  },
+}
+
+dap.configurations.javascript = {
+  {
+		type = 'pwa-node',
+		request = 'attach',
+		name = 'Attach to Docker',
+		port = 9229,
+		address = 'localhost',
+		localRoot = '${workspaceFolder}',
+		remoteRoot = '/code',
+		restart = true,
+		resolveSourceMapLocations = { '!**/node_modules/**' },
+		skipFiles = { '<node_internals>/**' },
+  },
+}
+
+dap.listeners.after.event_initialized["dapui_config"] = function() dapui.open() end
+dap.listeners.before.event_terminated["dapui_config"] = function() dapui.close() end
+dap.listeners.before.event_exited["dapui_config"] = function() dapui.close() end
+
+vim.keymap.set("n", "<leader>db", dap.toggle_breakpoint, { desc = "Toggle breakpoint" })
+vim.keymap.set("n", "<leader>dc", dap.continue, { desc = "Start/Continue debugging" })
+vim.keymap.set("n", "<leader>di", dap.step_into, { desc = "Step into" })
+vim.keymap.set("n", "<leader>do", dap.step_over, { desc = "Step over" })
+vim.keymap.set("n", "<leader>dO", dap.step_out, { desc = "Step out" })
+vim.keymap.set("n", "<leader>dr", dap.restart, { desc = "Restart debugger" })
+vim.keymap.set("n", "<leader>dt", dapui.toggle, { desc = "Toggle DAP UI" })
+
+-- Markdown inline rendering
+
+vim.pack.add{'https://github.com/MeanderingProgrammer/render-markdown.nvim'}
+require("render-markdown").setup({
+  heading = {
+    enabled = true,
+  },
+  code = {
+    enabled = true,
+    style = 'full', -- 'full', 'normal', 'language', 'none'
+  },
+  bullet = {
+    enabled = true,
+  },
+  checkbox = {
+    enabled = true,
+  },
+  pipe_table = {
+    enabled = true,
+    style = 'full', -- 'full', 'normal', 'none'
+  },
+  latex = { enabled = false },
+  render_modes = { 'n', 'c' }, -- modes where rendering is active
+  file_types = { 'markdown', 'copilot-chat' },
+})

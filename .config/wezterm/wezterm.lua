@@ -8,6 +8,7 @@ config.font_size = 20.0
 config.color_scheme = "Catppuccin Mocha"
 config.max_fps = 165
 config.term = "xterm-256color"
+config.front_end = "Software"
 
 config.enable_tab_bar = true
 config.window_decorations = "RESIZE"
@@ -76,7 +77,7 @@ config.keys = {
     key = "i",
     mods = "LEADER",
     action = wezterm.action.SpawnCommandInNewTab({
-      args = { "/opt/homebrew/bin/nvim", "+CopilotChatStart" },
+      args = { "/opt/homebrew/bin/nvim", "-c CopilotChat", "-c only" },
     }),
   },
   { key = "UpArrow",   mods = "SHIFT",        action = wezterm.action.ScrollToPrompt(-1) },

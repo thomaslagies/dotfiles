@@ -11,6 +11,7 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export PATH="/opt/homebrew/bin:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="/opt/homebrew/sbin:$PATH"
+export HOMEBREW_CASK_OPTS="--appdir=${HOME}/Applications"
 if [ -d "${HOME}/Library/Python" ]; then
   PYTHON_VERSION=$(ls -1 $HOME/Library/Python/ | sort -V | tail -n1)
   export PATH="${HOME}/Library/Python/${PYTHON_VERSION}/bin:${PATH}"
