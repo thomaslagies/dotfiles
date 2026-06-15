@@ -8,6 +8,10 @@
       "rev": "8ad154ce7ac82563c5aea39878b0b401d9eaf59e",
       "src": "https://github.com/emrearmagan/atlas.nvim"
     },
+    "claude-code.nvim": {
+      "rev": "55c0cb59828fbc3bec744288286a46f5d5750b83",
+      "src": "https://github.com/greggh/claude-code.nvim"
+    },
     "copilot-cmp": {
       "rev": "15fc12af3d0109fa76b60b5cffa1373697e261d1",
       "src": "https://github.com/zbirenbaum/copilot-cmp"
@@ -59,6 +63,10 @@
     "render-markdown.nvim": {
       "rev": "5adf0895310c1904e5abfaad40a2baad7fe44a07",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
+    "smear-cursor.nvim": {
+      "rev": "9e9378d6ee34bb3782e0e8c63d9ec8ca618b479b",
+      "src": "https://github.com/sphamba/smear-cursor.nvim"
     },
     "telescope-ui-select.nvim": {
       "rev": "6e51d7da30bd139a6950adf2a47fda6df9fa06d2",
