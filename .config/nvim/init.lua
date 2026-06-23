@@ -162,7 +162,20 @@ vim.lsp.config.lua_ls = {
 
 vim.lsp.enable 'lua_ls'
 
-vim.keymap.set('n', '<leader>gf', vim.lsp.buf.format, {})
+-- Prefer the repo's own prettier/eslint so versions + configs match the project
+local function project_bin(name)
+	local root = vim.fs.root(0, 'node_modules')
+	local p = root and (root .. '/node_modules/.bin/' .. name)
+	return (p and vim.uv.fs_stat(p)) and p or name
+end
+
+vim.keymap.set('n', '<leader>gf', function()
+	local file = vim.fn.expand('%:p')
+	vim.cmd('silent write')
+	vim.fn.system({ project_bin('prettier'), '--write', file }) -- reads .prettierrc/.editorconfig
+	vim.cmd('silent edit')                                      -- reload prettier's changes
+	vim.lsp.buf.format()                                        -- eslint LSP (eslint config) + lua_ls etc.
+end, { desc = 'Format: prettier + eslint, repo configs' })
 
 -- DAP (Debug Adapter Protocol) --
 vim.pack.add { 'https://github.com/mfussenegger/nvim-dap' }
