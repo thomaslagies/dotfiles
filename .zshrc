@@ -2,6 +2,7 @@
 #export NVM_LAZY_LOAD=true
 autoload -Uz compinit
 compinit
+export XDG_CONFIG_HOME="${HOME}/.config"
 export DOCKER_DEFAULT_PLATFORM=linux/amd64
 export EDITOR="nvim"
 export FZF_DEFAULT_COMMAND='ag --hidden --ignore "^.git$" --ignore "^node_modules$" -g ""'

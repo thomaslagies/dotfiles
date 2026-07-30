@@ -86,11 +86,6 @@ function dcols () {
   tmux select-pane -t 0
 }
 
-function pass () {
-# shows pass db
-    keepassxc-cli show -s -f Password /path/to/your/database.kdbx "$1"
-}
-
 function ghclone () {
 # clones github repos via fzf
   gh repo clone sealsystems/$(cat ~/.repos | fzf --sync --height 60% --reverse --select-1 --query "'${1}")

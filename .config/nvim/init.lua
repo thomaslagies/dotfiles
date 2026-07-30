@@ -1,4 +1,5 @@
 vim.opt.guicursor = ''
+vim.opt.termguicolors = true
 vim.g.mapleader = ' '
 
 vim.opt.number = true
@@ -37,6 +38,12 @@ vim.keymap.set('v', '<leader>y', '"+y')
 
 vim.keymap.set('n', '<leader>s', [[:%s/\<<C-r><C-w>\>/<C-r><C-w>/gI<Left><Left><Left>]])
 vim.keymap.set('n', '<leader>r', [[:%s/<C-r><C-w>/<C-r><C-w>/gI<Left><Left><Left>]])
+
+-- Disable unused providers to speed up startup and disable warning in :che
+vim.g.loaded_node_provider = 0
+vim.g.loaded_perl_provider = 0
+vim.g.loaded_python3_provider = 0
+vim.g.loaded_ruby_provider = 0
 
 -- TESTING
 --
@@ -77,18 +84,91 @@ function SwapWithNextWindow()
 end
 
 vim.keymap.set('n', '<leader>sw', SwapWithNextWindow, { desc = 'Swap buffers between windows' })
-vim.keymap.set('n', '<leader>h', '<C-w>h', {desc = "Go to left window"})
-vim.keymap.set('n', '<leader>j', '<C-w>j', {desc = "Go to below window"})
-vim.keymap.set('n', '<leader>k', '<C-w>k', {desc = "Go to above window"})
-vim.keymap.set('n', '<leader>l', '<C-w>l', {desc = "Go to right window"})
+vim.keymap.set('n', '<leader>h', '<C-w>h', { desc = 'Go to left window' })
+vim.keymap.set('n', '<leader>j', '<C-w>j', { desc = 'Go to below window' })
+vim.keymap.set('n', '<leader>k', '<C-w>k', { desc = 'Go to above window' })
+vim.keymap.set('n', '<leader>l', '<C-w>l', { desc = 'Go to right window' })
 
+vim.pack.add { 'https://github.com/catppuccin/nvim' }
+require('catppuccin').setup() -- auto_integrations detects treesitter/gitsigns/telescope/dap/etc.
 vim.cmd.colorscheme('catppuccin')
 
+vim.keymap.set('n', '<leader>gg', function() vim.system({ 'ghostty', '-e', 'lazygit'}) end, { desc = 'Lazygit' })
+
 -- PLUGINS --
+vim.pack.add { 'https://github.com/nvim-tree/nvim-web-devicons' }
 vim.pack.add { 'https://github.com/stevearc/oil.nvim' }
-require('oil').setup()
+require('oil').setup(
+	{
+		default_file_explorer = true,
+		columns = {
+			'icon'
+		},
+		view_options = {
+			show_hidden = true,
+		},
+		float = {
+			preview_split = 'auto',
+		},
+		preview_win = {
+			update_on_cursor_moved = true,
+		},
+	}
+)
 vim.keymap.set('n', '<leader>o', ':Oil<CR>', { desc = 'Open Oil to search files' })
 
+vim.pack.add { 'https://github.com/lewis6991/gitsigns.nvim' }
+require('gitsigns').setup {
+  signs = {
+    add          = { text = '┃' },
+    change       = { text = '┃' },
+    delete       = { text = '_' },
+    topdelete    = { text = '‾' },
+    changedelete = { text = '~' },
+    untracked    = { text = '┆' },
+  },
+  signs_staged = {
+    add          = { text = '┃' },
+    change       = { text = '┃' },
+    delete       = { text = '_' },
+    topdelete    = { text = '‾' },
+    changedelete = { text = '~' },
+    untracked    = { text = '┆' },
+  },
+  signs_staged_enable = true,
+  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir = {
+    follow_files = true
+  },
+  auto_attach = true,
+  attach_to_untracked = false,
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+    delay = 1000,
+    ignore_whitespace = false,
+    virt_text_priority = 100,
+    use_focus = true,
+  },
+  current_line_blame_formatter = '<author>, <author_time:%R> - <summary>',
+  blame_formatter = nil, -- Use default
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  max_file_length = 40000, -- Disable if file is longer than this (in lines)
+  preview_config = {
+    -- Options passed to nvim_open_win
+    style = 'minimal',
+    relative = 'cursor',
+    row = 0,
+    col = 1
+  },
+}
+vim.pack.add { 'https://github.com/tpope/vim-fugitive' }
 vim.pack.add { 'https://github.com/nvim-lua/plenary.nvim' }
 vim.pack.add { 'https://github.com/nvim-telescope/telescope.nvim' }
 vim.pack.add { 'https://github.com/nvim-telescope/telescope-ui-select.nvim' }
@@ -116,10 +196,20 @@ require('telescope').setup({
 })
 require('telescope').load_extension('ui-select')
 
+-- Treesitter: highlighting + injections (e.g. bash inside `run:`/`script:` blocks in yaml)
+vim.pack.add { 'https://github.com/nvim-treesitter/nvim-treesitter' }
+require('nvim-treesitter').install {
+	'bash', 'lua', 'yaml', 'javascript', 'json', 'markdown', 'markdown_inline', 'vim', 'vimdoc', 'query', 'diff',
+}
+vim.api.nvim_create_autocmd('FileType', {
+	callback = function(ev) pcall(vim.treesitter.start, ev.buf) end,
+})
+
 -- LSPs
 vim.lsp.config.tsgo = {
 	cmd = { 'tsgo', '--lsp', '--stdio' },
-	filetypes = { 'javascript' }
+	filetypes = { 'javascript' },
+	root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
 }
 vim.lsp.enable('tsgo')
 
@@ -131,7 +221,7 @@ vim.lsp.enable 'bashls'
 
 vim.lsp.config.yamlls = {
 	cmd = { 'yaml-language-server', '--stdio' },
-	filetypes = { 'yaml', 'yml' }
+	filetypes = { 'yaml' } -- *.yml files are already filetype 'yaml' in Neovim; 'yml' is not a real filetype
 }
 vim.lsp.enable 'yamlls'
 
@@ -173,8 +263,8 @@ vim.keymap.set('n', '<leader>gf', function()
 	local file = vim.fn.expand('%:p')
 	vim.cmd('silent write')
 	vim.fn.system({ project_bin('prettier'), '--write', file }) -- reads .prettierrc/.editorconfig
-	vim.cmd('silent edit')                                      -- reload prettier's changes
-	vim.lsp.buf.format()                                        -- eslint LSP (eslint config) + lua_ls etc.
+	vim.cmd('silent edit')                                     -- reload prettier's changes
+	vim.lsp.buf.format()                                       -- eslint LSP (eslint config) + lua_ls etc.
 end, { desc = 'Format: prettier + eslint, repo configs' })
 
 -- DAP (Debug Adapter Protocol) --
@@ -245,6 +335,7 @@ require('render-markdown').setup({
 		style = 'full', -- 'full', 'normal', 'none'
 	},
 	latex = { enabled = false },
+	html = { enabled = false }, -- no html treesitter parser installed; avoids the healthcheck warning
 	render_modes = { 'n', 'c' }, -- modes where rendering is active
 	file_types = { 'markdown', 'copilot-chat' },
 })
@@ -315,6 +406,7 @@ vim.keymap.set('n', '<leader>cc', '<cmd>ClaudeCode<CR>', { desc = 'Toggle Claude
 -- Smear my cursor
 vim.pack.add { 'https://github.com/sphamba/smear-cursor.nvim' }
 require('smear_cursor').setup({
+	enabled = false,
 	stiffness = 0.8,
 	trailing_stiffness = 0.6,
 	stiffness_insert_mode = 0.7,
