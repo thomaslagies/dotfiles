@@ -28,6 +28,7 @@ alias sdf='source ~/git/dotfiles/.aliasrc'
 alias tf=terraform
 alias tfa='terraform apply --auto-approve'
 alias tfd='terraform destroy --auto-approve'
+alias gcb='git checkout $(git branch -a | grep -v "\->" | sed "s/^..//; s#remotes/[^/]*/##" | sort -u | fzf)'
 
 function showf () {
 # shows all functions in .aliasrc

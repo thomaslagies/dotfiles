@@ -1,0 +1,6 @@
+font_family RobotoMono Nerd Font Mono
+font_size 20.0
+include current-theme.conf
+
+map cmd+d launch --location=vsplit
+map cmd+shift+d launch --location=hsplit
