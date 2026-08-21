@@ -65,16 +65,8 @@ require('guess-indent').setup {}
 
 vim.pack.add { 'https://github.com/folke/which-key.nvim' }
 require('which-key').setup {
-	-- Delay between pressing a key and opening which-key (milliseconds)
 	delay = 1000,
 	icons = { mappings = vim.g.have_nerd_font },
-	-- Document existing key chains
-	spec = {
-		{ '<leader>ll', group = '[S]earch',    mode = { 'n', 'v' } },
-		{ '<leader>t', group = '[T]oggle' },
-		{ '<leader>h', group = 'Git [H]unk',  mode = { 'n', 'v' } },  -- Enable gitsigns recommended keymaps first
-		{ 'gr',        group = 'LSP Actions', mode = { 'n' } },
-	},
 }
 --
 
@@ -123,7 +115,7 @@ vim.pack.add { 'https://github.com/catppuccin/nvim' }
 require('catppuccin').setup() -- auto_integrations detects treesitter/gitsigns/telescope/dap/etc.
 vim.cmd.colorscheme('catppuccin')
 
-vim.keymap.set('n', '<leader>gg', function() vim.system({ 'kitty', '-e', 'lazygit' }) end, { desc = 'Lazygit in new window' })
+vim.keymap.set('n', '<leader>gg', function() vim.system({ 'kitty', '@', 'launch', '--type=window', '--location=vsplit', '--cwd', vim.fn.getcwd(), 'lazygit' }) end, { desc = 'Lazygit in vsplit' })
 
 -- PLUGINS --
 vim.pack.add { 'https://github.com/nvim-tree/nvim-web-devicons' }
