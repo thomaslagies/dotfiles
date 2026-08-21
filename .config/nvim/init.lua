@@ -1,8 +1,15 @@
-vim.opt.guicursor = ''
-vim.opt.termguicolors = true
+-- cache compiled Lua modules
+vim.loader.enable()
+
 vim.g.mapleader = ' '
+--vim.opt.guicursor = ''
+
+vim.g.have_nerd_font = true
+vim.opt.termguicolors = true
 
 vim.opt.number = true
+
+vim.opt.breakindent = true
 
 vim.keymap.set('n', '<leader>so', ':so<CR>')
 vim.opt.relativenumber = false
@@ -30,6 +37,13 @@ vim.opt.updatetime = 50
 
 vim.opt.confirm = true
 
+vim.opt.splitright = true
+vim.opt.splitbelow = true
+
+vim.opt.inccommand = 'split'
+
+vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
+
 vim.keymap.set('n', 'mk', ':m .-2<CR>', { desc = 'Move line one up' })
 vim.keymap.set('n', 'mj', ':m .+1<CR>', { desc = 'Move line one down' })
 
@@ -46,6 +60,22 @@ vim.g.loaded_python3_provider = 0
 vim.g.loaded_ruby_provider = 0
 
 -- TESTING
+vim.pack.add { 'https://github.com/NMAC427/guess-indent.nvim' }
+require('guess-indent').setup {}
+
+vim.pack.add { 'https://github.com/folke/which-key.nvim' }
+require('which-key').setup {
+	-- Delay between pressing a key and opening which-key (milliseconds)
+	delay = 1000,
+	icons = { mappings = vim.g.have_nerd_font },
+	-- Document existing key chains
+	spec = {
+		{ '<leader>s', group = '[S]earch',    mode = { 'n', 'v' } },
+		{ '<leader>t', group = '[T]oggle' },
+		{ '<leader>h', group = 'Git [H]unk',  mode = { 'n', 'v' } },  -- Enable gitsigns recommended keymaps first
+		{ 'gr',        group = 'LSP Actions', mode = { 'n' } },
+	},
+}
 --
 
 -- FZF settings
@@ -93,7 +123,7 @@ vim.pack.add { 'https://github.com/catppuccin/nvim' }
 require('catppuccin').setup() -- auto_integrations detects treesitter/gitsigns/telescope/dap/etc.
 vim.cmd.colorscheme('catppuccin')
 
-vim.keymap.set('n', '<leader>gg', function() vim.system({ 'ghostty', '-e', 'lazygit'}) end, { desc = 'Lazygit' })
+vim.keymap.set('n', '<leader>gg', function() vim.system({ 'kitty', '-e', 'lazygit' }) end, { desc = 'Lazygit in new window' })
 
 -- PLUGINS --
 vim.pack.add { 'https://github.com/nvim-tree/nvim-web-devicons' }
@@ -119,54 +149,13 @@ vim.keymap.set('n', '<leader>o', ':Oil<CR>', { desc = 'Open Oil to search files'
 
 vim.pack.add { 'https://github.com/lewis6991/gitsigns.nvim' }
 require('gitsigns').setup {
-  signs = {
-    add          = { text = '┃' },
-    change       = { text = '┃' },
-    delete       = { text = '_' },
-    topdelete    = { text = '‾' },
-    changedelete = { text = '~' },
-    untracked    = { text = '┆' },
-  },
-  signs_staged = {
-    add          = { text = '┃' },
-    change       = { text = '┃' },
-    delete       = { text = '_' },
-    topdelete    = { text = '‾' },
-    changedelete = { text = '~' },
-    untracked    = { text = '┆' },
-  },
-  signs_staged_enable = true,
-  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
-  numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
-  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
-  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
-  watch_gitdir = {
-    follow_files = true
-  },
-  auto_attach = true,
-  attach_to_untracked = false,
-  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
-  current_line_blame_opts = {
-    virt_text = true,
-    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
-    delay = 1000,
-    ignore_whitespace = false,
-    virt_text_priority = 100,
-    use_focus = true,
-  },
-  current_line_blame_formatter = '<author>, <author_time:%R> - <summary>',
-  blame_formatter = nil, -- Use default
-  sign_priority = 6,
-  update_debounce = 100,
-  status_formatter = nil, -- Use default
-  max_file_length = 40000, -- Disable if file is longer than this (in lines)
-  preview_config = {
-    -- Options passed to nvim_open_win
-    style = 'minimal',
-    relative = 'cursor',
-    row = 0,
-    col = 1
-  },
+	signs = {
+		add = { text = '+' }, ---@diagnostic disable-line: missing-fields
+		change = { text = '~' }, ---@diagnostic disable-line: missing-fields
+		delete = { text = '_' }, ---@diagnostic disable-line: missing-fields
+		topdelete = { text = '‾' }, ---@diagnostic disable-line: missing-fields
+		changedelete = { text = '~' }, ---@diagnostic disable-line: missing-fields
+	},
 }
 vim.pack.add { 'https://github.com/tpope/vim-fugitive' }
 vim.pack.add { 'https://github.com/nvim-lua/plenary.nvim' }
@@ -384,7 +373,7 @@ vim.api.nvim_create_autocmd('FileType', {
 
 vim.keymap.set({ 'n', 'v', 'x' }, '<leader>ag', function()
 	require('CopilotChat').ask('#buffer Explain this code', {
-		callback = function(response)
+		callback = function()
 		end,
 	})
 end, { desc = 'Ask Copilot to explain code in current buffer' })
