@@ -23,6 +23,24 @@ fi
 bindkey '^[[1;3D' backward-word
 bindkey '^[[1;3C' forward-word
 
+# edit commands in neovim
+bindkey -v # for vi keybindings
+export KEYTIMEOUT=1
+autoload edit-command-line
+zle -N edit-command-line
+bindkey -M vicmd v edit-command-line
+
+export VI_MODE_SET_CURSOR=true
+
+function zle-keymap-select {
+  if [[ $KEYMAP == vicmd ]]; then
+    echo -ne '\e[2 q' # block cursor
+  else
+    echo -ne '\e[6 q' # beam cursor
+  fi
+}
+zle -N zle-keymap-select
+
 HISTFILE="$HOME/.zsh_history"
 HISTSIZE=500000
 SAVEHIST=500000

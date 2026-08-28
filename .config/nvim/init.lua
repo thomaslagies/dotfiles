@@ -41,6 +41,7 @@ vim.opt.splitright = true
 vim.opt.splitbelow = true
 
 vim.opt.inccommand = 'split'
+vim.opt.showmode = false
 
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostic [Q]uickfix list' })
 
@@ -68,6 +69,25 @@ require('which-key').setup {
 	delay = 1000,
 	icons = { mappings = vim.g.have_nerd_font },
 }
+
+vim.pack.add { 'https://github.com/emrearmagan/atlas.nvim' }
+require('atlas').setup()
+
+vim.pack.add({
+  'https://github.com/MunifTanjim/nui.nvim',
+  'https://github.com/rcarriga/nvim-notify',
+  'https://github.com/folke/noice.nvim',
+})
+
+require('noice').setup({
+  presets = {
+    command_palette = true, -- centered cmdline + popupmenu together
+  },
+	lsp = {
+		progress = { enabled = false },
+	},
+})
+
 --
 
 -- FZF settings
@@ -369,6 +389,26 @@ vim.keymap.set({ 'n', 'v', 'x' }, '<leader>ag', function()
 		end,
 	})
 end, { desc = 'Ask Copilot to explain code in current buffer' })
+
+	-- lualine
+vim.pack.add({ 'https://github.com/nvim-lualine/lualine.nvim' })
+
+require('lualine').setup({
+  options = {
+    theme = 'catppuccin-mocha',
+    component_separators = { left = '', right = '' },
+    section_separators = { left = '', right = '' },
+    globalstatus = true,
+  },
+  sections = {
+    lualine_a = { 'mode' },
+    lualine_b = { 'branch', 'diff', 'diagnostics' },
+    lualine_c = { { 'filename', path = 1 } },
+    lualine_x = { 'filetype' },
+    lualine_y = { 'progress' },
+    lualine_z = { 'location' },
+  },
+})
 
 -- Claude integration
 vim.pack.add { 'https://github.com/greggh/claude-code.nvim' }
