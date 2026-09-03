@@ -80,3 +80,4 @@ source ~/.zsh_kubectl_completion
 
 # Created by `pipx` on 2025-09-11 13:26:54
 export PATH="$PATH:/Users/thomas.lagies/.local/bin"
+export PATH="$HOME/Library/TinyTeX/bin/universal-darwin:$PATH"

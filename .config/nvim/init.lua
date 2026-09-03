@@ -74,20 +74,40 @@ vim.pack.add { 'https://github.com/emrearmagan/atlas.nvim' }
 require('atlas').setup()
 
 vim.pack.add({
-  'https://github.com/MunifTanjim/nui.nvim',
-  'https://github.com/rcarriga/nvim-notify',
-  'https://github.com/folke/noice.nvim',
+	'https://github.com/MunifTanjim/nui.nvim',
+	'https://github.com/rcarriga/nvim-notify',
+	'https://github.com/folke/noice.nvim',
 })
 
-require('noice').setup({
-  presets = {
-    command_palette = true, -- centered cmdline + popupmenu together
-  },
-	lsp = {
-		progress = { enabled = false },
-	},
-})
-
+-- require('noice').setup({
+-- 	presets = {
+-- 		command_palette = false, -- centered cmdline + popupmenu together
+-- 	},
+-- 	views = {
+-- 		cmdline_popup = {
+-- 			position = {
+-- 				row = '100%',
+-- 				col = 0,
+-- 			},
+-- 			size = {
+-- 				width = '40%',
+-- 				height = 'auto',
+-- 			},
+-- 		},
+-- 		popupmenu = {
+-- 			relative = 'editor',
+-- 			position = {
+-- 				row = '100%',
+-- 				col = 0,
+-- 			},
+-- 		},
+-- 	},
+--
+-- 	lsp = {
+-- 		progress = { enabled = false },
+-- 	},
+-- })
+--
 --
 
 -- FZF settings
@@ -135,7 +155,9 @@ vim.pack.add { 'https://github.com/catppuccin/nvim' }
 require('catppuccin').setup() -- auto_integrations detects treesitter/gitsigns/telescope/dap/etc.
 vim.cmd.colorscheme('catppuccin')
 
-vim.keymap.set('n', '<leader>gg', function() vim.system({ 'kitty', '@', 'launch', '--type=window', '--location=vsplit', '--cwd', vim.fn.getcwd(), 'lazygit' }) end, { desc = 'Lazygit in vsplit' })
+vim.keymap.set('n', '<leader>gg',
+	function() vim.system({ 'kitty', '@', 'launch', '--type=window', '--location=vsplit', '--cwd', vim.fn.getcwd(),
+			'lazygit' }) end, { desc = 'Lazygit in vsplit' })
 
 -- PLUGINS --
 vim.pack.add { 'https://github.com/nvim-tree/nvim-web-devicons' }
@@ -390,24 +412,24 @@ vim.keymap.set({ 'n', 'v', 'x' }, '<leader>ag', function()
 	})
 end, { desc = 'Ask Copilot to explain code in current buffer' })
 
-	-- lualine
+-- lualine
 vim.pack.add({ 'https://github.com/nvim-lualine/lualine.nvim' })
 
 require('lualine').setup({
-  options = {
-    theme = 'catppuccin-mocha',
-    component_separators = { left = '', right = '' },
-    section_separators = { left = '', right = '' },
-    globalstatus = true,
-  },
-  sections = {
-    lualine_a = { 'mode' },
-    lualine_b = { 'branch', 'diff', 'diagnostics' },
-    lualine_c = { { 'filename', path = 1 } },
-    lualine_x = { 'filetype' },
-    lualine_y = { 'progress' },
-    lualine_z = { 'location' },
-  },
+	options = {
+		theme = 'catppuccin-mocha',
+		component_separators = { left = '', right = '' },
+		section_separators = { left = '', right = '' },
+		globalstatus = true,
+	},
+	sections = {
+		lualine_a = { 'mode' },
+		lualine_b = { 'branch', 'diff', 'diagnostics' },
+		lualine_c = { { 'filename', path = 1 } },
+		lualine_x = { 'filetype' },
+		lualine_y = { 'progress' },
+		lualine_z = { 'location' },
+	},
 })
 
 -- Claude integration
