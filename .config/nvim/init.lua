@@ -108,7 +108,9 @@ vim.pack.add({
 -- 	},
 -- })
 --
---
+
+vim.pack.add { 'https://github.com/iamcco/markdown-preview.nvim' }
+vim.fn['mkdp#util#install']()
 
 -- FZF settings
 vim.env.FZF_DEFAULT_OPTS = '--preview-window=right:60%'
@@ -156,8 +158,10 @@ require('catppuccin').setup() -- auto_integrations detects treesitter/gitsigns/t
 vim.cmd.colorscheme('catppuccin')
 
 vim.keymap.set('n', '<leader>gg',
-	function() vim.system({ 'kitty', '@', 'launch', '--type=window', '--location=vsplit', '--cwd', vim.fn.getcwd(),
-			'lazygit' }) end, { desc = 'Lazygit in vsplit' })
+	function()
+		vim.system({ 'kitty', '@', 'launch', '--type=window', '--location=vsplit', '--cwd', vim.fn.getcwd(),
+			'lazygit' })
+	end, { desc = 'Lazygit in vsplit' })
 
 -- PLUGINS --
 vim.pack.add { 'https://github.com/nvim-tree/nvim-web-devicons' }

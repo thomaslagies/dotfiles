@@ -1,4 +1,5 @@
 alias .='nvim .'
+alias en="nvim $HOME/git/dotfiles/.config/nvim/init.lua"
 alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
 alias bro=brew
 alias bye="sh $HOME/git/worktime/bye.sh"
@@ -29,6 +30,17 @@ alias tf=terraform
 alias tfa='terraform apply --auto-approve'
 alias tfd='terraform destroy --auto-approve'
 alias gcb='git checkout $(git branch -a | grep -v "\->" | sed "s/^..//; s#remotes/[^/]*/##" | sort -u | fzf)'
+
+function cbox () {
+# launch claude with the current dir as volume mount
+  export REPO_DIR="$(cd "$PWD" && pwd -P)" # resolve symlinks
+  local proj="claude-$(basename "$REPO_DIR")"
+  local dFile="$HOME/git/claude-docker/docker-compose.yml"
+  docker compose -p "$proj" -f $dFile down
+  docker compose -p "$proj" -f $dFile up -d
+  docker compose -p "$proj" -f $dFile exec claude claude "$@"
+  docker compose -p "$proj" -f $dFile down
+}
 
 function showf () {
 # shows all functions in .aliasrc
