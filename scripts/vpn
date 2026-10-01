@@ -1,0 +1,75 @@
+#! /usr/bin/env bun
+
+const forti = require("/Applications/FortiClient.app/Contents/Resources/app.asar.unpacked/assets/js/guimessenger_jyp.node")
+const payload = { connection_name: "SEAL IPSec VPN", connection_type: "ipsec" }
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve,ms))
+}
+
+async function* states() {
+  while(true) {
+    const state = await forti.getConnectionState();
+    yield JSON.parse(state);
+    await sleep(1000);
+  }
+}
+
+
+const arg = process.argv[2];
+if (arg === "state") {
+  const res = await forti.getConnectionState();
+  process.stdout.write(res + "\n")
+  process.exitCode = 0;
+  process.exit();
+}
+
+if (arg === "ls") {
+  const res = forti.GetVPNConnectionList();
+  process.stdout.write(res + "\n")
+  process.exitCode = 0;
+  process.exit();
+}
+
+
+if (arg === "on") {
+  const res = forti.ConnectTunnel(JSON.stringify(payload));
+  process.stdout.write(res + "\n");
+  if (res !== '["1"]') {
+    process.stderr.write(`failed to set state; Open FortiClient Console (GUI) and try again\n`);
+    process.exit(1);
+  }
+  const expected = 2;
+  for await (const state of states()) {
+    const actual = state.ipsec_state;
+    process.stderr.write(`ipsec_state: got=${actual} wants=${expected}\n`);
+    if (actual === expected) {
+      break;
+    }
+  }
+  process.exitCode = 0;
+  process.exit();
+}
+
+if (arg === "off") {
+  const res = forti.DisconnectTunnel(JSON.stringify(payload));
+  process.stdout.write(res + "\n")
+  if (res !== '["1"]') {
+    process.stderr.write(`failed to set state; Open FortiClient Console (GUI) and try again\n`);
+    process.exit(1);
+  }
+  const expected = 0;
+  for await (const state of states()) {
+    const actual = state.ipsec_state;
+    process.stderr.write(`ipsec_state: got=${actual} wants=${expected}\n`);
+    if (actual === expected) {
+      break;
+    }
+  }
+  process.exitCode = 0;
+  process.exit();
+}
+
+process.stdout.write("vpn ls|state|on|off\n")
+
+

@@ -73,44 +73,8 @@ require('which-key').setup {
 vim.pack.add { 'https://github.com/emrearmagan/atlas.nvim' }
 require('atlas').setup()
 
-vim.pack.add({
-	'https://github.com/MunifTanjim/nui.nvim',
-	'https://github.com/rcarriga/nvim-notify',
-	'https://github.com/folke/noice.nvim',
-})
-
--- require('noice').setup({
--- 	presets = {
--- 		command_palette = false, -- centered cmdline + popupmenu together
--- 	},
--- 	views = {
--- 		cmdline_popup = {
--- 			position = {
--- 				row = '100%',
--- 				col = 0,
--- 			},
--- 			size = {
--- 				width = '40%',
--- 				height = 'auto',
--- 			},
--- 		},
--- 		popupmenu = {
--- 			relative = 'editor',
--- 			position = {
--- 				row = '100%',
--- 				col = 0,
--- 			},
--- 		},
--- 	},
---
--- 	lsp = {
--- 		progress = { enabled = false },
--- 	},
--- })
---
-
 vim.pack.add { 'https://github.com/iamcco/markdown-preview.nvim' }
-vim.fn['mkdp#util#install']()
+vim.api.nvim_create_user_command('MkdpInstall', function() vim.fn['mkdp#util#install']() end, {})
 
 -- FZF settings
 vim.env.FZF_DEFAULT_OPTS = '--preview-window=right:60%'
@@ -148,10 +112,15 @@ function SwapWithNextWindow()
 end
 
 vim.keymap.set('n', '<leader>sw', SwapWithNextWindow, { desc = 'Swap buffers between windows' })
-vim.keymap.set('n', '<leader>h', '<C-w>h', { desc = 'Go to left window' })
-vim.keymap.set('n', '<leader>j', '<C-w>j', { desc = 'Go to below window' })
-vim.keymap.set('n', '<leader>k', '<C-w>k', { desc = 'Go to above window' })
-vim.keymap.set('n', '<leader>l', '<C-w>l', { desc = 'Go to right window' })
+
+-- Window navigation that crosses seamlessly into kitty splits at the edge
+-- (pairs with the cmd+hjkl kitty.conf mappings).
+vim.pack.add { 'https://github.com/mrjones2014/smart-splits.nvim' }
+require('smart-splits').setup { multiplexer_integration = 'kitty' }
+vim.keymap.set('n', '<D-h>', require('smart-splits').move_cursor_left, { desc = 'Go to left window' })
+vim.keymap.set('n', '<D-j>', require('smart-splits').move_cursor_down, { desc = 'Go to below window' })
+vim.keymap.set('n', '<D-k>', require('smart-splits').move_cursor_up, { desc = 'Go to above window' })
+vim.keymap.set('n', '<D-l>', require('smart-splits').move_cursor_right, { desc = 'Go to right window' })
 
 vim.pack.add { 'https://github.com/catppuccin/nvim' }
 require('catppuccin').setup() -- auto_integrations detects treesitter/gitsigns/telescope/dap/etc.
@@ -279,6 +248,13 @@ vim.lsp.config.lua_ls = {
 
 vim.lsp.enable 'lua_ls'
 
+vim.lsp.config.perlnavigator = {
+	cmd = { 'perlnavigator', '--stdio' },
+	filetypes = { 'perl' },
+	root_markers = { '.git' },
+}
+vim.lsp.enable 'perlnavigator'
+
 -- Prefer the repo's own prettier/eslint so versions + configs match the project
 local function project_bin(name)
 	local root = vim.fs.root(0, 'node_modules')
@@ -288,10 +264,18 @@ end
 
 vim.keymap.set('n', '<leader>gf', function()
 	local file = vim.fn.expand('%:p')
+	local buf = vim.api.nvim_get_current_buf()
 	vim.cmd('silent write')
-	vim.fn.system({ project_bin('prettier'), '--write', file }) -- reads .prettierrc/.editorconfig
-	vim.cmd('silent edit')                                     -- reload prettier's changes
-	vim.lsp.buf.format()                                       -- eslint LSP (eslint config) + lua_ls etc.
+	vim.system({ project_bin('prettier'), '--write', file }, {}, function(res) -- reads .prettierrc/.editorconfig
+		if res.code ~= 0 then
+			vim.schedule(function() vim.notify('prettier failed: ' .. (res.stderr or ''), vim.log.levels.ERROR) end)
+			return
+		end
+		vim.schedule(function()
+			vim.cmd('checktime ' .. buf) -- reload prettier's changes
+			vim.lsp.buf.format()        -- eslint LSP (eslint config) + lua_ls etc.
+		end)
+	end)
 end, { desc = 'Format: prettier + eslint, repo configs' })
 
 -- DAP (Debug Adapter Protocol) --
@@ -385,7 +369,7 @@ require('CopilotChat').setup({
 		zindex = 100, -- Ensure window stays on top
 	},
 	context = 'buffer',
-	model = 'claude-opus-4.6',
+	model = 'claude-opus-5',
 	headers = {
 		user = '👤 You',
 		assistant = '🤖 Copilot',
@@ -439,7 +423,7 @@ require('lualine').setup({
 -- Claude integration
 vim.pack.add { 'https://github.com/greggh/claude-code.nvim' }
 require('claude-code').setup({
-	model = 'claude-opus-4-8',
+	model = 'claude-opus-5',
 	window = {
 		position = 'vertical',
 		split_ratio = 0.4,
