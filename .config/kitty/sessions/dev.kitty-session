@@ -1,0 +1,6 @@
+layout splits
+launch --var role=editor nvim
+launch --location=vsplit
+launch --location=hsplit
+focus_matching_window var:role=editor
+launch --location=hsplit
