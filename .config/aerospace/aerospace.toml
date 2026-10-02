@@ -86,6 +86,7 @@ alt-enter = 'exec-and-forget open -a WezTerm'
 alt-z = 'exec-and-forget open -a "Zen Browser"'
 alt-backspace = 'exec-and-forget open -a "Spotify"'
 alt-s = 'exec-and-forget open -a "Safari"'
+alt-f = 'exec-and-forget ~/git/dotfiles/.config/aerospace/toggle-firefox-float.sh'
 # alt-t = 'exec-and-forget open -a "Microsoft Teams"'
 
 # See: https://nikitabobko.github.io/AeroSpace/commands#layout

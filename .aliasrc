@@ -1,6 +1,7 @@
 alias .='nvim .'
 alias von="$HOME/git/dotfiles/scripts/vpn on"
 alias vof="$HOME/git/dotfiles/scripts/vpn off"
+alias dnd="$HOME/git/dotfiles/scripts/aPos &"
 alias en="nvim $HOME/git/dotfiles/.config/nvim/init.lua"
 alias brewu='brew update && brew upgrade && echo "Pinned package not upgraded:" && brew list --pinned'
 alias bro=brew
@@ -39,10 +40,10 @@ function cbox () {
   export REPO_DIR2=$1
   local proj="claude-$(basename "$REPO_DIR")"
   local dFile="$HOME/git/claude-docker/docker-compose.yml"
-  docker compose -p "$proj" -f $dFile down
+  #docker compose -p "$proj" -f $dFile down
   docker compose -p "$proj" -f $dFile up -d
   docker compose -p "$proj" -f $dFile exec claude claude "$@"
-  docker compose -p "$proj" -f $dFile down
+  #docker compose -p "$proj" -f $dFile down
 }
 
 function showf () {
